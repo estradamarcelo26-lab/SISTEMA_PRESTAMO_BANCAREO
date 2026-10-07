@@ -7,7 +7,7 @@ import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 
 /**
- * Sistema de Login MIUBANK con temática de gatos adorables y kawaii (Java 2D Pure Vector).
+ * Sistema de Login MIUBANK con temática de Gatos Empresariales Ejecutivos.
  */
 public class MIUBANK extends JFrame {
     private JTextField usuarioField;
@@ -20,9 +20,9 @@ public class MIUBANK extends JFrame {
     private static final String EMPLEADO_PASS = "emp123";
 
     public MIUBANK() {
-        setTitle("MIUBANK - Sistema de Login");
+        setTitle("MIUBANK - Sistema de Login Empresarial");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1280, 720);
+        setSize(1280, 780);
         setLocationRelativeTo(null);
         setUndecorated(true);
         setResizable(true);
@@ -48,25 +48,25 @@ public class MIUBANK extends JFrame {
 
     private JPanel crearBarraTitulo() {
         JPanel barra = new JPanel(new BorderLayout());
-        barra.setBackground(new Color(245, 245, 248));
-        barra.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(200, 200, 210)));
-        barra.setPreferredSize(new Dimension(0, 38));
+        barra.setBackground(new Color(238, 240, 245));
+        barra.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(190, 195, 205)));
+        barra.setPreferredSize(new Dimension(0, 40));
 
-        JLabel titulo = new JLabel(" MIUBANK - Sistema de Login");
+        JLabel titulo = new JLabel(" MIUBANK - Portal Financiero Ejecutivo");
         titulo.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        titulo.setForeground(new Color(60, 60, 75));
+        titulo.setForeground(new Color(40, 50, 70));
         
-        titulo.setIcon(new ImageIcon(generarIconoGatoBarra(22, 22)));
-        titulo.setBorder(new EmptyBorder(0, 10, 0, 0));
+        titulo.setIcon(new ImageIcon(generarIconoGatoEmpresarialBarra(26, 26)));
+        titulo.setBorder(new EmptyBorder(0, 12, 0, 0));
         barra.add(titulo, BorderLayout.WEST);
 
         JPanel panelAcciones = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 6));
         panelAcciones.setOpaque(false);
 
-        JButton botonMinimizar = crearBotonControl("—", new Color(225, 225, 230), new Color(100, 100, 110));
+        JButton botonMinimizar = crearBotonControl("—", new Color(220, 225, 235), new Color(90, 95, 110));
         botonMinimizar.addActionListener(e -> setState(JFrame.ICONIFIED));
 
-        JButton botonCerrar = crearBotonControl("✕", new Color(255, 110, 110), Color.WHITE);
+        JButton botonCerrar = crearBotonControl("✕", new Color(240, 80, 80), Color.WHITE);
         botonCerrar.addActionListener(e -> dispose());
 
         panelAcciones.add(botonMinimizar);
@@ -88,7 +88,7 @@ public class MIUBANK extends JFrame {
                 super.paintComponent(g);
             }
         };
-        boton.setPreferredSize(new Dimension(30, 24));
+        boton.setPreferredSize(new Dimension(32, 26));
         boton.setFont(new Font("Segoe UI", Font.BOLD, 12));
         boton.setFocusPainted(false);
         boton.setContentAreaFilled(false);
@@ -101,13 +101,14 @@ public class MIUBANK extends JFrame {
 
     private JComponent crearContenedorConGato() {
         JLayeredPane layeredPane = new JLayeredPane();
-        layeredPane.setPreferredSize(new Dimension(620, 640));
+        layeredPane.setPreferredSize(new Dimension(680, 700));
 
         JPanel panelLogin = crearPanelLogin();
-        panelLogin.setBounds(0, 50, 620, 580);
+        panelLogin.setBounds(0, 85, 680, 610);
 
-        CatPeekPanelKawaii catPeek = new CatPeekPanelKawaii();
-        catPeek.setBounds(210, 0, 200, 75);
+        // Gato grande empresarial asomándose arriba
+        GatoEjecutivoSuperior catPeek = new GatoEjecutivoSuperior();
+        catPeek.setBounds(190, 0, 300, 120);
 
         layeredPane.add(panelLogin, JLayeredPane.DEFAULT_LAYER);
         layeredPane.add(catPeek, JLayeredPane.PALETTE_LAYER);
@@ -122,22 +123,22 @@ public class MIUBANK extends JFrame {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 
-                // Fondo con suave degradado
-                GradientPaint gp = new GradientPaint(0, 0, new Color(248, 248, 250), 0, getHeight(), new Color(225, 225, 235));
+                // Fondo elegante empresarial
+                GradientPaint gp = new GradientPaint(0, 0, new Color(250, 252, 255), 0, getHeight(), new Color(225, 232, 242));
                 g2.setPaint(gp);
-                g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 24, 24));
+                g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 28, 28));
 
-                // Borde suave
-                g2.setColor(new Color(180, 185, 200));
+                // Borde ejecutivo
+                g2.setColor(new Color(170, 185, 205));
                 g2.setStroke(new BasicStroke(2.5f));
-                g2.draw(new RoundRectangle2D.Float(1, 1, getWidth() - 2, getHeight() - 2, 24, 24));
+                g2.draw(new RoundRectangle2D.Float(1, 1, getWidth() - 2, getHeight() - 2, 28, 28));
 
                 g2.dispose();
             }
         };
         panelLogin.setOpaque(false);
         panelLogin.setLayout(new BoxLayout(panelLogin, BoxLayout.Y_AXIS));
-        panelLogin.setBorder(new EmptyBorder(30, 35, 15, 35));
+        panelLogin.setBorder(new EmptyBorder(45, 40, 20, 40));
 
         // Header
         JPanel header = new JPanel();
@@ -145,40 +146,41 @@ public class MIUBANK extends JFrame {
         header.setLayout(new BoxLayout(header, BoxLayout.Y_AXIS));
         header.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JPanel titleRow = new JPanel(new FlowLayout(FlowLayout.CENTER, 12, 0));
+        JPanel titleRow = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 0));
         titleRow.setOpaque(false);
 
-        GatoDormidoPanelKawaii gatoDormido = new GatoDormidoPanelKawaii();
-        gatoDormido.setPreferredSize(new Dimension(75, 55));
-        titleRow.add(gatoDormido);
+        // Gato con portafolio grande al lado del título
+        GatoPortafolioPanel gatoEjecutivo = new GatoPortafolioPanel();
+        gatoEjecutivo.setPreferredSize(new Dimension(100, 75));
+        titleRow.add(gatoEjecutivo);
 
         JLabel titulo = new JLabel("MIUBANK");
-        titulo.setFont(new Font("Segoe UI", Font.BOLD, 52));
-        titulo.setForeground(new Color(25, 80, 145));
+        titulo.setFont(new Font("Segoe UI", Font.BOLD, 56));
+        titulo.setForeground(new Color(15, 60, 120));
         titleRow.add(titulo);
 
         header.add(titleRow);
 
-        JLabel subtitulo = new JLabel("Sistema de Login");
-        subtitulo.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-        subtitulo.setForeground(new Color(90, 95, 110));
+        JLabel subtitulo = new JLabel("Sistema Banquero & Ejecutivo");
+        subtitulo.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        subtitulo.setForeground(new Color(80, 95, 120));
         subtitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        header.add(Box.createVerticalStrut(2));
+        header.add(Box.createVerticalStrut(4));
         header.add(subtitulo);
 
         panelLogin.add(header);
-        panelLogin.add(Box.createVerticalStrut(20));
+        panelLogin.add(Box.createVerticalStrut(25));
 
         // Formulario
         JPanel form = new JPanel(new GridBagLayout());
         form.setOpaque(false);
         GridBagConstraints g = new GridBagConstraints();
-        g.insets = new Insets(8, 15, 8, 15);
+        g.insets = new Insets(10, 18, 10, 18);
         g.fill = GridBagConstraints.HORIZONTAL;
 
         JLabel usuarioLabel = new JLabel("Usuario:");
-        usuarioLabel.setFont(new Font("Segoe UI", Font.BOLD, 17));
-        usuarioLabel.setForeground(new Color(50, 55, 70));
+        usuarioLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        usuarioLabel.setForeground(new Color(40, 50, 70));
         g.gridx = 0;
         g.gridy = 0;
         g.weightx = 0.2;
@@ -192,8 +194,8 @@ public class MIUBANK extends JFrame {
         form.add(usuarioField, g);
 
         JLabel contrasenaLabel = new JLabel("Contraseña:");
-        contrasenaLabel.setFont(new Font("Segoe UI", Font.BOLD, 17));
-        contrasenaLabel.setForeground(new Color(50, 55, 70));
+        contrasenaLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        contrasenaLabel.setForeground(new Color(40, 50, 70));
         g.gridx = 0;
         g.gridy = 1;
         g.weightx = 0.2;
@@ -207,17 +209,17 @@ public class MIUBANK extends JFrame {
         form.add(contrasenaField, g);
 
         panelLogin.add(form);
-        panelLogin.add(Box.createVerticalStrut(20));
+        panelLogin.add(Box.createVerticalStrut(25));
 
         // Botones
-        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 25, 0));
         panelBotones.setOpaque(false);
 
-        JButton botonIngresar = crearBotonEstilizado("Ingresar", new Color(30, 120, 225), Color.WHITE);
-        botonIngresar.setIcon(new ImageIcon(generarIconoHuellaKawaii(20, 20, Color.WHITE)));
+        JButton botonIngresar = crearBotonEstilizado("Ingresar", new Color(15, 80, 160), Color.WHITE);
+        botonIngresar.setIcon(new ImageIcon(generarIconoPortafolio(22, 22, Color.WHITE)));
 
-        JButton botonLimpiar = crearBotonEstilizado("Limpiar", new Color(220, 225, 235), new Color(60, 65, 80));
-        botonLimpiar.setIcon(new ImageIcon(generarIconoEstambreKawaii(20, 20, new Color(230, 80, 120))));
+        JButton botonLimpiar = crearBotonEstilizado("Limpiar", new Color(215, 222, 235), new Color(50, 60, 80));
+        botonLimpiar.setIcon(new ImageIcon(generarIconoEstambreEmpresarial(22, 22, new Color(15, 80, 160))));
 
         panelBotones.add(botonIngresar);
         panelBotones.add(botonLimpiar);
@@ -225,16 +227,16 @@ public class MIUBANK extends JFrame {
         panelLogin.add(Box.createVerticalStrut(15));
 
         mensajeLabel = new JLabel("", SwingConstants.CENTER);
-        mensajeLabel.setFont(new Font("Segoe UI", Font.BOLD, 15));
-        mensajeLabel.setForeground(new Color(0, 150, 60));
+        mensajeLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        mensajeLabel.setForeground(new Color(0, 140, 60));
         mensajeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelLogin.add(mensajeLabel);
         panelLogin.add(Box.createVerticalStrut(10));
 
-        // Carita adorable inferior con corazón
-        CaritaGatoInferiorKawaii caritaInferior = new CaritaGatoInferiorKawaii();
-        caritaInferior.setPreferredSize(new Dimension(80, 50));
-        caritaInferior.setMaximumSize(new Dimension(80, 50));
+        // Gato inferior ejecutivo grande con anteojos y corbata
+        GatoInferiorEmpresarial caritaInferior = new GatoInferiorEmpresarial();
+        caritaInferior.setPreferredSize(new Dimension(120, 70));
+        caritaInferior.setMaximumSize(new Dimension(120, 70));
         caritaInferior.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelLogin.add(caritaInferior);
         panelLogin.add(Box.createVerticalStrut(10));
@@ -245,21 +247,21 @@ public class MIUBANK extends JFrame {
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(new Color(255, 255, 255, 180));
+                g2.setColor(new Color(255, 255, 255, 200));
                 g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 16, 16));
-                g2.setColor(new Color(200, 205, 220));
+                g2.setColor(new Color(190, 200, 215));
                 g2.draw(new RoundRectangle2D.Float(0, 0, getWidth() - 1, getHeight() - 1, 16, 16));
                 g2.dispose();
             }
         };
         panelInfo.setOpaque(false);
-        panelInfo.setBorder(new EmptyBorder(6, 16, 6, 16));
-        panelInfo.setMaximumSize(new Dimension(360, 70));
+        panelInfo.setBorder(new EmptyBorder(8, 18, 8, 18));
+        panelInfo.setMaximumSize(new Dimension(420, 75));
         panelInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        JLabel infoLabel = new JLabel("<html><div style='text-align:center;'><b>Usuarios de prueba:</b><br/><font color='#1E78E1'>Admin:</font> admin / admin123 | <font color='#1E78E1'>Empleado:</font> empleado / emp123</div></html>");
+        JLabel infoLabel = new JLabel("<html><div style='text-align:center;'><b>Credenciales de Prueba Corporativas:</b><br/><font color='#0F50A0'>Admin:</font> admin / admin123 &nbsp;|&nbsp; <font color='#0F50A0'>Empleado:</font> empleado / emp123</div></html>");
         infoLabel.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        infoLabel.setForeground(new Color(70, 75, 90));
+        infoLabel.setForeground(new Color(60, 70, 90));
         panelInfo.add(infoLabel);
         panelLogin.add(panelInfo);
 
@@ -276,12 +278,12 @@ public class MIUBANK extends JFrame {
     }
 
     private void estilarCampoTexto(JTextField field) {
-        field.setFont(new Font("Segoe UI", Font.PLAIN, 17));
-        field.setPreferredSize(new Dimension(260, 36));
+        field.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        field.setPreferredSize(new Dimension(280, 40));
         field.setBackground(Color.WHITE);
         field.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(190, 195, 210), 1, true),
-                BorderFactory.createEmptyBorder(4, 10, 4, 10)
+                BorderFactory.createLineBorder(new Color(180, 195, 215), 1, true),
+                BorderFactory.createEmptyBorder(4, 12, 4, 12)
         ));
     }
 
@@ -292,18 +294,18 @@ public class MIUBANK extends JFrame {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2.setColor(getBackground());
-                g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 18, 18));
+                g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 20, 20));
                 g2.dispose();
                 super.paintComponent(g);
             }
         };
-        btn.setPreferredSize(new Dimension(160, 42));
+        btn.setPreferredSize(new Dimension(175, 45));
         btn.setBackground(fondo);
         btn.setForeground(textoColor);
         btn.setFocusPainted(false);
         btn.setContentAreaFilled(false);
         btn.setBorderPainted(false);
-        btn.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 16));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         return btn;
     }
@@ -313,28 +315,28 @@ public class MIUBANK extends JFrame {
         String contrasena = new String(contrasenaField.getPassword()).trim();
 
         if (usuario.isEmpty() || contrasena.isEmpty()) {
-            mensajeLabel.setText("Por favor, ingrese usuario y contraseña 🐾");
+            mensajeLabel.setText("Ingrese usuario y contraseña corporativos 👔");
             mensajeLabel.setForeground(new Color(210, 40, 40));
             return;
         }
 
         if (usuario.equals(ADMIN_USER) && contrasena.equals(ADMIN_PASS)) {
-            mensajeLabel.setText("¡Bienvenido Admin! 🐱✨");
-            mensajeLabel.setForeground(new Color(0, 140, 50));
+            mensajeLabel.setText("Acceso Concedido: Director Ejecutivo 💼🐱");
+            mensajeLabel.setForeground(new Color(0, 130, 50));
             abrirVentanaAdmin();
         } else if (usuario.equals(EMPLEADO_USER) && contrasena.equals(EMPLEADO_PASS)) {
-            mensajeLabel.setText("¡Bienvenido Empleado! 🐾✨");
-            mensajeLabel.setForeground(new Color(0, 140, 50));
+            mensajeLabel.setText("Acceso Concedido: Ejecutivo Banquero 👔🐾");
+            mensajeLabel.setForeground(new Color(0, 130, 50));
             abrirVentanaEmpleado();
         } else {
-            mensajeLabel.setText("Usuario o contraseña incorrectos 😿");
+            mensajeLabel.setText("Credenciales incorrectas. Verifique de nuevo 😾");
             mensajeLabel.setForeground(new Color(210, 40, 40));
             contrasenaField.setText("");
         }
     }
 
     private void abrirVentanaAdmin() {
-        JFrame ventanaAdmin = new JFrame("Panel Administrativo - MIUBANK");
+        JFrame ventanaAdmin = new JFrame("Panel Director Ejecutivo - MIUBANK");
         ventanaAdmin.setExtendedState(JFrame.MAXIMIZED_BOTH);
         ventanaAdmin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -342,25 +344,25 @@ public class MIUBANK extends JFrame {
         panelFondo.setBackground(new Color(128, 128, 128));
 
         JPanel panelSuperior = new JPanel();
-        panelSuperior.setBackground(new Color(25, 80, 145));
-        panelSuperior.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
-        JLabel titulo = new JLabel("Panel de Administrador 🐱👑");
+        panelSuperior.setBackground(new Color(15, 50, 100));
+        panelSuperior.setBorder(BorderFactory.createEmptyBorder(18, 25, 18, 25));
+        JLabel titulo = new JLabel("Panel Director General & Presidencia 💼🐱👑");
         titulo.setFont(new Font("Segoe UI", Font.BOLD, 28));
         titulo.setForeground(Color.WHITE);
         panelSuperior.add(titulo);
 
         JPanel panelContenido = new JPanel();
-        panelContenido.setBackground(new Color(235, 235, 240));
+        panelContenido.setBackground(new Color(235, 240, 248));
         panelContenido.setLayout(new BoxLayout(panelContenido, BoxLayout.Y_AXIS));
         panelContenido.setBorder(BorderFactory.createEmptyBorder(40, 50, 40, 50));
 
-        JLabel opciones = new JLabel("<html><font size='5' color='#1E78E1'><b>Opciones Administrativas:</b></font><br/><br/>"
-                + "✓ Gestionar usuarios y permisos<br/><br/>"
-                + "✓ Ver reportes financieros detallados<br/><br/>"
-                + "✓ Configuración global del sistema<br/><br/>"
-                + "✓ Registro de auditoría<br/><br/>"
-                + "✓ Aprobación de préstamos</html>");
-        opciones.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        JLabel opciones = new JLabel("<html><font size='5' color='#0F50A0'><b>Gestión Directiva Avanzada:</b></font><br/><br/>"
+                + "✓ Control global de cuentas institucionales<br/><br/>"
+                + "✓ Aprobar transacciones corporativas de alto volumen<br/><br/>"
+                + "✓ Reportes financieros y balances anuales<br/><br/>"
+                + "✓ Auditoría de seguridad y accesos<br/><br/>"
+                + "✓ Gestión de sucursales y personal ejecutivo</html>");
+        opciones.setFont(new Font("Segoe UI", Font.PLAIN, 17));
         panelContenido.add(opciones);
 
         panelFondo.add(panelSuperior, BorderLayout.NORTH);
@@ -371,7 +373,7 @@ public class MIUBANK extends JFrame {
     }
 
     private void abrirVentanaEmpleado() {
-        JFrame ventanaEmpleado = new JFrame("Panel de Empleado - MIUBANK");
+        JFrame ventanaEmpleado = new JFrame("Panel Ejecutivo Banquero - MIUBANK");
         ventanaEmpleado.setExtendedState(JFrame.MAXIMIZED_BOTH);
         ventanaEmpleado.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -379,25 +381,25 @@ public class MIUBANK extends JFrame {
         panelFondo.setBackground(new Color(128, 128, 128));
 
         JPanel panelSuperior = new JPanel();
-        panelSuperior.setBackground(new Color(25, 80, 145));
-        panelSuperior.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
-        JLabel titulo = new JLabel("Panel de Empleado 🐾✨");
+        panelSuperior.setBackground(new Color(15, 50, 100));
+        panelSuperior.setBorder(BorderFactory.createEmptyBorder(18, 25, 18, 25));
+        JLabel titulo = new JLabel("Panel de Ejecutivo de Cuentas Banqueras 👔🐾");
         titulo.setFont(new Font("Segoe UI", Font.BOLD, 28));
         titulo.setForeground(Color.WHITE);
         panelSuperior.add(titulo);
 
         JPanel panelContenido = new JPanel();
-        panelContenido.setBackground(new Color(235, 235, 240));
+        panelContenido.setBackground(new Color(235, 240, 248));
         panelContenido.setLayout(new BoxLayout(panelContenido, BoxLayout.Y_AXIS));
         panelContenido.setBorder(BorderFactory.createEmptyBorder(40, 50, 40, 50));
 
-        JLabel opciones = new JLabel("<html><font size='5' color='#1E78E1'><b>Opciones del Empleado:</b></font><br/><br/>"
-                + "✓ Mi Perfil de Usuario<br/><br/>"
-                + "✓ Consultar Tareas Asignadas<br/><br/>"
-                + "✓ Registro de Asistencia<br/><br/>"
-                + "✓ Solicitudes de Préstamo<br/><br/>"
-                + "✓ Descargar Documentos</html>");
-        opciones.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        JLabel opciones = new JLabel("<html><font size='5' color='#0F50A0'><b>Operaciones Ejecutivas:</b></font><br/><br/>"
+                + "✓ Gestión de expedientes de clientes<br/><br/>"
+                + "✓ Apertura de cuentas de inversión<br/><br/>"
+                + "✓ Evaluación de solicitudes de crédito<br/><br/>"
+                + "✓ Consulta de movimientos bancarios<br/><br/>"
+                + "✓ Emisión de tarjetas y cheques</html>");
+        opciones.setFont(new Font("Segoe UI", Font.PLAIN, 17));
         panelContenido.add(opciones);
 
         panelFondo.add(panelSuperior, BorderLayout.NORTH);
@@ -407,77 +409,74 @@ public class MIUBANK extends JFrame {
         ventanaEmpleado.setVisible(true);
     }
 
-    // --- ÍCONOS VECTORIALES ADORABLES ---
+    // --- ÍCONOS VECTORIALES EMPRESARIALES ---
 
-    private Image generarIconoHuellaKawaii(int width, int height, Color color) {
+    private Image generarIconoPortafolio(int width, int height, Color color) {
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = img.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(color);
 
-        // Almohadilla central acorazonada
-        g2.fillOval(5, 9, 10, 8);
-        g2.fillOval(3, 8, 7, 7);
-        g2.fillOval(10, 8, 7, 7);
+        // Portafolio
+        g2.fillRoundRect(2, 6, 18, 13, 4, 4);
+        g2.drawRoundRect(7, 3, 8, 4, 2, 2);
 
-        // Dedos
-        g2.fillOval(2, 3, 4, 5);
-        g2.fillOval(7, 1, 4, 5);
-        g2.fillOval(12, 1, 4, 5);
-        g2.fillOval(15, 4, 4, 5);
+        // Broche metálico
+        g2.setColor(new Color(240, 200, 80));
+        g2.fillRect(9, 10, 4, 3);
 
         g2.dispose();
         return img;
     }
 
-    private Image generarIconoEstambreKawaii(int width, int height, Color color) {
+    private Image generarIconoEstambreEmpresarial(int width, int height, Color color) {
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = img.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         
         g2.setColor(color);
-        g2.fillOval(2, 2, 15, 15);
-
-        g2.setColor(Color.WHITE);
-        g2.setStroke(new BasicStroke(1.2f));
-        g2.drawArc(4, 4, 11, 11, 30, 120);
-        g2.drawArc(3, 7, 13, 8, -40, 140);
+        g2.setStroke(new BasicStroke(2.0f));
+        g2.drawOval(3, 3, 16, 16);
+        g2.drawLine(3, 11, 19, 11);
+        g2.drawLine(11, 3, 11, 19);
 
         g2.dispose();
         return img;
     }
 
-    private Image generarIconoGatoBarra(int width, int height) {
+    private Image generarIconoGatoEmpresarialBarra(int width, int height) {
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = img.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Cabeza
-        g2.setColor(new Color(245, 175, 110));
-        g2.fillOval(2, 5, 18, 15);
+        g2.setColor(new Color(220, 160, 100));
+        g2.fillOval(3, 3, 20, 17);
 
         // Orejas
-        int[] xL = {3, 7, 9}; int[] yL = {7, 1, 8};
+        int[] xL = {4, 9, 11}; int[] yL = {5, 0, 7};
         g2.fillPolygon(xL, yL, 3);
-        int[] xR = {13, 15, 19}; int[] yR = {8, 1, 7};
+        int[] xR = {15, 17, 22}; int[] yR = {7, 0, 5};
         g2.fillPolygon(xR, yR, 3);
 
-        // Ojos
-        g2.setColor(new Color(40, 40, 50));
-        g2.fillOval(6, 10, 3, 4);
-        g2.fillOval(13, 10, 3, 4);
+        // Saco / Corbata
+        g2.setColor(new Color(20, 35, 60));
+        g2.fillRect(6, 18, 14, 8);
+        g2.setColor(new Color(210, 30, 40));
+        int[] xT = {12, 14, 13}; int[] yT = {18, 18, 24};
+        g2.fillPolygon(xT, yT, 3);
 
         g2.dispose();
         return img;
     }
 
-    // --- COMPONENTES KAWAII PERSONALIZADOS ---
+    // --- DIBUJOS VECTORIALES DE GATOS EMPRESARIALES GRANDES ---
 
     /**
-     * Gato Adorable asomándose en la parte superior.
+     * Gato Ejecutivo Asomándose Arriba (Traje, Corbata y Anteojos).
      */
-    private static class CatPeekPanelKawaii extends JPanel {
-        public CatPeekPanelKawaii() { setOpaque(false); }
+    private static class GatoEjecutivoSuperior extends JPanel {
+        public GatoEjecutivoSuperior() { setOpaque(false); }
 
         @Override
         protected void paintComponent(Graphics g) {
@@ -487,93 +486,93 @@ public class MIUBANK extends JFrame {
 
             int cx = getWidth() / 2;
 
-            // Oreja Izquierda
-            g2.setColor(new Color(245, 175, 110));
+            // Orejas Grandes
+            g2.setColor(new Color(230, 165, 100));
             Path2D.Double earL = new Path2D.Double();
-            earL.moveTo(cx - 50, 40); earL.lineTo(cx - 38, 2); earL.lineTo(cx - 18, 30);
+            earL.moveTo(cx - 75, 60); earL.lineTo(cx - 58, 2); earL.lineTo(cx - 28, 45);
             earL.closePath();
             g2.fill(earL);
 
-            // Oreja Derecha
             Path2D.Double earR = new Path2D.Double();
-            earR.moveTo(cx + 18, 30); earR.lineTo(cx + 38, 2); earR.lineTo(cx + 50, 40);
+            earR.moveTo(cx + 28, 45); earR.lineTo(cx + 58, 2); earR.lineTo(cx + 75, 60);
             earR.closePath();
             g2.fill(earR);
 
-            // Interior Orejas (Rosa)
-            g2.setColor(new Color(255, 185, 195));
+            // Interior Orejas
+            g2.setColor(new Color(245, 180, 190));
             Path2D.Double inL = new Path2D.Double();
-            inL.moveTo(cx - 44, 38); inL.lineTo(cx - 37, 9); inL.lineTo(cx - 23, 31);
+            inL.moveTo(cx - 68, 55); inL.lineTo(cx - 57, 12); inL.lineTo(cx - 35, 45);
             inL.closePath();
             g2.fill(inL);
 
             Path2D.Double inR = new Path2D.Double();
-            inR.moveTo(cx + 23, 31); inR.lineTo(cx + 37, 9); inR.lineTo(cx + 44, 38);
+            inR.moveTo(cx + 35, 45); inR.lineTo(cx + 57, 12); inR.lineTo(cx + 68, 55);
             inR.closePath();
             g2.fill(inR);
 
-            // Cabeza Redondita
-            g2.setColor(new Color(250, 190, 130));
-            g2.fillOval(cx - 55, 18, 110, 55);
+            // Cabeza Grande
+            g2.setColor(new Color(240, 175, 110));
+            g2.fillOval(cx - 85, 25, 170, 85);
 
-            // Ojos Kawaii Grandes
-            g2.setColor(new Color(40, 35, 45));
-            g2.fillOval(cx - 32, 30, 16, 18);
-            g2.fillOval(cx + 16, 30, 16, 18);
+            // Saco Ejecutivo Azul Marino en el borde
+            g2.setColor(new Color(20, 40, 75));
+            g2.fillRoundRect(cx - 75, 80, 150, 40, 20, 20);
 
-            // Destellos de Luz en los ojos
+            // Camisa Blanca
             g2.setColor(Color.WHITE);
-            g2.fillOval(cx - 30, 32, 6, 6);
-            g2.fillOval(cx - 24, 40, 3, 3);
-            g2.fillOval(cx + 18, 32, 6, 6);
-            g2.fillOval(cx + 24, 40, 3, 3);
+            int[] xCamisa = {cx - 30, cx + 30, cx};
+            int[] yCamisa = {80, 80, 115};
+            g2.fillPolygon(xCamisa, yCamisa, 3);
 
-            // Mejillitas Sonrosadas
-            g2.setColor(new Color(255, 140, 160, 160));
-            g2.fillOval(cx - 44, 42, 14, 8);
-            g2.fillOval(cx + 30, 42, 14, 8);
+            // Corbata Roja Ejecutiva
+            g2.setColor(new Color(210, 35, 45));
+            int[] xCorbata = {cx - 10, cx + 10, cx + 14, cx, cx - 14};
+            int[] yCorbata = {82, 82, 92, 120, 92};
+            g2.fillPolygon(xCorbata, yCorbata, 5);
+
+            // Ojos con lentes de sol / ejecutivos
+            g2.setColor(new Color(30, 30, 35));
+            g2.fillRoundRect(cx - 52, 45, 42, 28, 10, 10);
+            g2.fillRoundRect(cx + 10, 45, 42, 28, 10, 10);
+            g2.setStroke(new BasicStroke(4.0f));
+            g2.drawLine(cx - 10, 55, cx + 10, 55); // Puente de lentes
+
+            // Destello en los lentes
+            g2.setColor(new Color(255, 255, 255, 160));
+            g2.drawLine(cx - 46, 50, cx - 25, 66);
+            g2.drawLine(cx + 16, 50, cx + 37, 66);
 
             // Nariz
-            g2.setColor(new Color(240, 110, 130));
-            g2.fillOval(cx - 3, 41, 6, 5);
+            g2.setColor(new Color(230, 120, 130));
+            g2.fillOval(cx - 5, 68, 10, 7);
 
-            // Boca en forma de 'w'
-            g2.setColor(new Color(60, 50, 50));
-            g2.setStroke(new BasicStroke(1.8f));
-            g2.drawArc(cx - 7, 44, 7, 6, 190, 160);
-            g2.drawArc(cx, 44, 7, 6, 190, 160);
+            // Bigotes Elegantes
+            g2.setColor(new Color(80, 70, 70));
+            g2.setStroke(new BasicStroke(2.0f));
+            g2.drawLine(cx - 58, 68, cx - 88, 65);
+            g2.drawLine(cx - 57, 74, cx - 85, 78);
+            g2.drawLine(cx + 58, 68, cx + 88, 65);
+            g2.drawLine(cx + 57, 74, cx + 85, 78);
 
-            // Bigotitos
-            g2.setColor(new Color(100, 80, 80));
-            g2.setStroke(new BasicStroke(1.4f));
-            g2.drawLine(cx - 38, 44, cx - 56, 42);
-            g2.drawLine(cx - 37, 48, cx - 54, 50);
-            g2.drawLine(cx + 38, 44, cx + 56, 42);
-            g2.drawLine(cx + 37, 48, cx + 54, 50);
-
-            // Patitas acolchadas asomándose
+            // Patitas Ejecutivas en el borde
             g2.setColor(Color.WHITE);
-            g2.fillOval(cx - 42, 52, 26, 18);
-            g2.fillOval(cx + 16, 52, 26, 18);
+            g2.fillOval(cx - 65, 82, 35, 25);
+            g2.fillOval(cx + 30, 82, 35, 25);
 
-            g2.setColor(new Color(220, 210, 220));
-            g2.drawOval(cx - 42, 52, 26, 18);
-            g2.drawOval(cx + 16, 52, 26, 18);
-
-            // Detalle almohadillas rosa en patitas
-            g2.setColor(new Color(255, 170, 185));
-            g2.fillOval(cx - 35, 59, 12, 8);
-            g2.fillOval(cx + 23, 59, 12, 8);
+            g2.setColor(new Color(180, 190, 205));
+            g2.setStroke(new BasicStroke(1.5f));
+            g2.drawOval(cx - 65, 82, 35, 25);
+            g2.drawOval(cx + 30, 82, 35, 25);
 
             g2.dispose();
         }
     }
 
     /**
-     * Gato dormido kawaii con forma redondeada.
+     * Gato con Portafolio Grande al lado del título.
      */
-    private static class GatoDormidoPanelKawaii extends JPanel {
-        public GatoDormidoPanelKawaii() { setOpaque(false); }
+    private static class GatoPortafolioPanel extends JPanel {
+        public GatoPortafolioPanel() { setOpaque(false); }
 
         @Override
         protected void paintComponent(Graphics g) {
@@ -581,41 +580,48 @@ public class MIUBANK extends JFrame {
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-            // Cuerpo redondito
-            g2.setColor(new Color(245, 175, 110));
-            g2.fillOval(12, 12, 52, 36);
+            // Cabeza Grande
+            g2.setColor(new Color(235, 170, 105));
+            g2.fillOval(10, 10, 48, 42);
 
-            // Cabeza
-            g2.fillOval(4, 18, 28, 26);
+            // Orejas
+            int[] xL = {12, 20, 28}; int[] yL = {14, 2, 16};
+            g2.fillPolygon(xL, yL, 3);
+            int[] xR = {40, 48, 56}; int[] yR = {16, 2, 14};
+            g2.fillPolygon(xR, yR, 3);
 
-            // Oreja
-            int[] xE = {6, 12, 18}; int[] yE = {20, 8, 22};
-            g2.fillPolygon(xE, yE, 3);
+            // Lentes Inteligentes
+            g2.setColor(new Color(25, 30, 45));
+            g2.drawRoundRect(18, 22, 14, 12, 4, 4);
+            g2.drawRoundRect(36, 22, 14, 12, 4, 4);
+            g2.drawLine(32, 26, 36, 26);
 
-            // Ojos felices cerrados (^ ^)
-            g2.setColor(new Color(60, 50, 60));
-            g2.setStroke(new BasicStroke(2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-            g2.drawArc(9, 26, 7, 6, 20, 140);
-            g2.drawArc(18, 26, 7, 6, 20, 140);
+            // Saco y Corbata
+            g2.setColor(new Color(20, 45, 85));
+            g2.fillRoundRect(16, 46, 36, 26, 10, 10);
+            g2.setColor(Color.WHITE);
+            int[] xCam = {28, 40, 34}; int[] yCam = {46, 46, 62};
+            g2.fillPolygon(xCam, yCam, 3);
+            g2.setColor(new Color(210, 35, 45));
+            g2.fillRect(32, 46, 4, 18);
 
-            // Mejilla rosa
-            g2.setColor(new Color(255, 130, 150, 170));
-            g2.fillOval(13, 32, 8, 5);
-
-            // Cola abrazando el cuerpo
-            g2.setColor(new Color(230, 155, 90));
-            g2.setStroke(new BasicStroke(5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-            g2.drawArc(30, 8, 32, 32, -80, 140);
+            // Portafolio de Cuero
+            g2.setColor(new Color(110, 60, 25));
+            g2.fillRoundRect(55, 38, 32, 28, 6, 6);
+            g2.setColor(new Color(240, 190, 70));
+            g2.fillRect(68, 48, 6, 5); // Broche
+            g2.setColor(new Color(80, 40, 15));
+            g2.drawRoundRect(63, 33, 16, 8, 3, 3); // Asa
 
             g2.dispose();
         }
     }
 
     /**
-     * Carita inferior con corazón flotante.
+     * Gato Inferior Ejecutivo Grande (con Lentes y Corbata).
      */
-    private static class CaritaGatoInferiorKawaii extends JPanel {
-        public CaritaGatoInferiorKawaii() { setOpaque(false); }
+    private static class GatoInferiorEmpresarial extends JPanel {
+        public GatoInferiorEmpresarial() { setOpaque(false); }
 
         @Override
         protected void paintComponent(Graphics g) {
@@ -625,43 +631,48 @@ public class MIUBANK extends JFrame {
 
             int cx = getWidth() / 2;
 
-            // Corazón flotante
-            g2.setColor(new Color(255, 100, 130));
-            g2.fillOval(cx - 6, 2, 7, 7);
-            g2.fillOval(cx, 2, 7, 7);
-            int[] xH = {cx - 6, cx + 7, cx + 0};
-            int[] yH = {6, 6, 13};
-            g2.fillPolygon(xH, yH, 3);
-
-            // Cabeza
-            g2.setColor(new Color(110, 115, 130));
-            g2.fillOval(cx - 24, 16, 48, 32);
-
             // Orejitas
-            int[] xL = {cx - 22, cx - 14, cx - 6}; int[] yL = {22, 10, 20};
+            g2.setColor(new Color(100, 105, 120));
+            int[] xL = {cx - 32, cx - 20, cx - 8}; int[] yL = {28, 10, 24};
             g2.fillPolygon(xL, yL, 3);
-            int[] xR = {cx + 6, cx + 14, cx + 22}; int[] yR = {20, 10, 22};
+            int[] xR = {cx + 8, cx + 20, cx + 32}; int[] yR = {24, 10, 28};
             g2.fillPolygon(xR, yR, 3);
 
-            // Ojos
-            g2.setColor(new Color(255, 215, 90));
-            g2.fillOval(cx - 16, 24, 10, 10);
-            g2.fillOval(cx + 6, 24, 10, 10);
+            // Cabeza Elegante Gris Executive
+            g2.setColor(new Color(120, 125, 140));
+            g2.fillOval(cx - 38, 20, 76, 48);
 
+            // Ojos con Anteojos Redondos
+            g2.setColor(new Color(20, 25, 35));
+            g2.setStroke(new BasicStroke(2.2f));
+            g2.drawOval(cx - 28, 32, 18, 18);
+            g2.drawOval(cx + 10, 32, 18, 18);
+            g2.drawLine(cx - 10, 40, cx + 10, 40);
+
+            // Ojos
+            g2.setColor(new Color(255, 210, 80));
+            g2.fillOval(cx - 24, 36, 10, 10);
+            g2.fillOval(cx + 14, 36, 10, 10);
             g2.setColor(Color.BLACK);
-            g2.fillOval(cx - 12, 26, 4, 6);
-            g2.fillOval(cx + 8, 26, 4, 6);
+            g2.fillOval(cx - 20, 38, 4, 6);
+            g2.fillOval(cx + 18, 38, 4, 6);
 
             // Nariz
-            g2.setColor(new Color(255, 160, 180));
-            g2.fillOval(cx - 2, 33, 4, 3);
+            g2.setColor(new Color(240, 150, 165));
+            g2.fillOval(cx - 3, 48, 6, 4);
+
+            // Saco y Corbata Pequeña Inferior
+            g2.setColor(new Color(15, 35, 65));
+            g2.fillRoundRect(cx - 25, 58, 50, 20, 8, 8);
+            g2.setColor(new Color(220, 40, 50));
+            g2.fillRect(cx - 3, 58, 6, 12);
 
             g2.dispose();
         }
     }
 
     /**
-     * Fondo dinámico con gatitos adorables y huellas.
+     * Fondo Ejecutivo con Siluetas de Gatos Empresariales en Gran Tamaño.
      */
     private static class FondoPatron extends JPanel {
         @Override
@@ -670,55 +681,56 @@ public class MIUBANK extends JFrame {
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-            // Fondo gris medio suave
-            g2.setColor(new Color(135, 138, 145));
+            // Fondo gris corporativo
+            g2.setColor(new Color(120, 125, 135));
             g2.fillRect(0, 0, getWidth(), getHeight());
 
-            int pasoX = 200;
-            int pasoY = 160;
+            int pasoX = 240;
+            int pasoY = 190;
 
-            for (int y = -20; y < getHeight() + 60; y += pasoY) {
-                for (int x = -30; x < getWidth() + 60; x += pasoX) {
-                    dibujarGatoSentado(g2, x, y);
-                    dibujarHuellaKawaii(g2, x + 120, y + 75, 22);
+            for (int y = -30; y < getHeight() + 80; y += pasoY) {
+                for (int x = -40; x < getWidth() + 80; x += pasoX) {
+                    dibujarGatoEmpresarialGrande(g2, x, y);
+                    dibujarPortafolioGrande(g2, x + 140, y + 90, 32);
                 }
             }
 
             g2.dispose();
         }
 
-        private void dibujarGatoSentado(Graphics2D g2, int x, int y) {
-            g2.setColor(new Color(75, 78, 88, 170));
+        private void dibujarGatoEmpresarialGrande(Graphics2D g2, int x, int y) {
+            g2.setColor(new Color(65, 70, 80, 160));
 
             // Cuerpo
-            g2.fillOval(x + 12, y + 30, 48, 55);
+            g2.fillOval(x + 15, y + 35, 65, 75);
             // Cabeza
-            g2.fillOval(x + 16, y + 8, 40, 34);
+            g2.fillOval(x + 22, y + 10, 50, 42);
 
             // Orejas
             Path2D.Double ear1 = new Path2D.Double();
-            ear1.moveTo(x + 18, 16); ear1.lineTo(x + 24, 0); ear1.lineTo(x + 32, 12); ear1.closePath();
+            ear1.moveTo(x + 25, 20); ear1.lineTo(x + 32, 0); ear1.lineTo(x + 42, 16); ear1.closePath();
             g2.fill(ear1);
 
             Path2D.Double ear2 = new Path2D.Double();
-            ear2.moveTo(x + 40, 12); ear2.lineTo(x + 48, 0); ear2.lineTo(x + 54, 16); ear2.closePath();
+            ear2.moveTo(x + 52, 16); ear2.lineTo(x + 62, 0); ear2.lineTo(x + 68, 20); ear2.closePath();
             g2.fill(ear2);
 
-            // Cola curva suave
+            // Saco
+            g2.setColor(new Color(45, 50, 60, 180));
+            g2.fillRoundRect(x + 20, y + 55, 55, 50, 12, 12);
+
+            // Cola
             Path2D.Double cola = new Path2D.Double();
-            cola.moveTo(x + 55, y + 72);
-            cola.quadTo(x + 85, y + 50, x + 76, y + 25);
-            cola.quadTo(x + 68, y + 40, x + 50, y + 62);
+            cola.moveTo(x + 75, y + 95);
+            cola.quadTo(x + 110, y + 70, x + 98, y + 35);
+            cola.quadTo(x + 88, y + 55, x + 68, y + 82);
             g2.fill(cola);
         }
 
-        private void dibujarHuellaKawaii(Graphics2D g2, int x, int y, int size) {
-            g2.setColor(new Color(75, 78, 88, 140));
-            int s = size;
-            g2.fillOval(x, y + s / 4, s / 2, s / 3);
-            g2.fillOval(x + s / 6, y, s / 4, s / 4);
-            g2.fillOval(x + s / 2, y - 2, s / 4, s / 4);
-            g2.fillOval(x + (4 * s) / 5, y + s / 8, s / 4, s / 4);
+        private void dibujarPortafolioGrande(Graphics2D g2, int x, int y, int size) {
+            g2.setColor(new Color(60, 65, 75, 140));
+            g2.fillRoundRect(x, y, size, (int)(size * 0.75), 6, 6);
+            g2.drawRoundRect(x + size / 3, y - size / 4, size / 3, size / 4, 3, 3);
         }
     }
 
