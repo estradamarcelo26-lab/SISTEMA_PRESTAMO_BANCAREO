@@ -37,7 +37,7 @@ public class MIUBANK extends JFrame {
 
         FondoPatron fondo = new FondoPatron();
         fondo.setLayout(new GridBagLayout());
-        fondo.setBorder(new EmptyBorder(15, 0, 20, 0));
+        fondo.setBorder(new EmptyBorder(15, 0, 10, 0));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -110,14 +110,14 @@ public class MIUBANK extends JFrame {
 
     private JPanel crearPanelLogin() {
         JPanel panelLogin = new JPanel();
-        panelLogin.setBackground(new Color(200, 200, 200, 200));
+        panelLogin.setBackground(new Color(210, 210, 210, 210));
         panelLogin.setLayout(new BoxLayout(panelLogin, BoxLayout.Y_AXIS));
         panelLogin.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(120, 120, 120), 2),
                 BorderFactory.createEmptyBorder(15, 35, 15, 35)
         ));
-        panelLogin.setPreferredSize(new Dimension(640, 600));
-        panelLogin.setMaximumSize(new Dimension(640, 600));
+        panelLogin.setPreferredSize(new Dimension(620, 590));
+        panelLogin.setMaximumSize(new Dimension(620, 590));
         panelLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JPanel header = new JPanel();
@@ -125,16 +125,16 @@ public class MIUBANK extends JFrame {
         header.setLayout(new BoxLayout(header, BoxLayout.Y_AXIS));
         header.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel gatoCabecera = new JLabel("🐈");
-        gatoCabecera.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 52));
-        gatoCabecera.setAlignmentX(Component.CENTER_ALIGNMENT);
-        header.add(gatoCabecera);
+        CatHeadPanel catHead = new CatHeadPanel();
+        catHead.setPreferredSize(new Dimension(110, 88));
+        catHead.setMaximumSize(new Dimension(110, 88));
+        header.add(catHead);
 
         JLabel titulo = new JLabel("MIUBANK");
-        titulo.setFont(new Font("Arial", Font.BOLD, 62));
+        titulo.setFont(new Font("Arial", Font.BOLD, 64));
         titulo.setForeground(new Color(0, 83, 140));
         titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        header.add(Box.createVerticalStrut(5));
+        header.add(Box.createVerticalStrut(4));
         header.add(titulo);
 
         JLabel subtitulo = new JLabel("Sistema de Login");
@@ -144,13 +144,7 @@ public class MIUBANK extends JFrame {
         header.add(subtitulo);
 
         panelLogin.add(header);
-        panelLogin.add(Box.createVerticalStrut(20));
-
-        JLabel catIcon = new JLabel("🐱");
-        catIcon.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 42));
-        catIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panelLogin.add(catIcon);
-        panelLogin.add(Box.createVerticalStrut(12));
+        panelLogin.add(Box.createVerticalStrut(18));
 
         JPanel form = new JPanel(new GridBagLayout());
         form.setOpaque(false);
@@ -168,7 +162,7 @@ public class MIUBANK extends JFrame {
 
         usuarioField = new JTextField("admin");
         usuarioField.setFont(new Font("Arial", Font.PLAIN, 20));
-        usuarioField.setPreferredSize(new Dimension(240, 36));
+        usuarioField.setPreferredSize(new Dimension(260, 36));
         usuarioField.setBackground(new Color(250, 250, 250));
         usuarioField.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(180, 180, 180)),
@@ -189,7 +183,7 @@ public class MIUBANK extends JFrame {
 
         contrasenaField = new JPasswordField("******");
         contrasenaField.setFont(new Font("Arial", Font.PLAIN, 20));
-        contrasenaField.setPreferredSize(new Dimension(240, 36));
+        contrasenaField.setPreferredSize(new Dimension(260, 36));
         contrasenaField.setBackground(new Color(250, 250, 250));
         contrasenaField.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(180, 180, 180)),
@@ -201,7 +195,7 @@ public class MIUBANK extends JFrame {
         form.add(contrasenaField, g);
 
         panelLogin.add(form);
-        panelLogin.add(Box.createVerticalStrut(18));
+        panelLogin.add(Box.createVerticalStrut(24));
 
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 18, 0));
         panelBotones.setOpaque(false);
@@ -227,14 +221,14 @@ public class MIUBANK extends JFrame {
         panelBotones.add(botonIngresar);
         panelBotones.add(botonLimpiar);
         panelLogin.add(panelBotones);
-        panelLogin.add(Box.createVerticalStrut(15));
+        panelLogin.add(Box.createVerticalStrut(18));
 
         mensajeLabel = new JLabel("", SwingConstants.CENTER);
         mensajeLabel.setFont(new Font("Arial", Font.BOLD, 18));
         mensajeLabel.setForeground(new Color(255, 0, 0));
         mensajeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelLogin.add(mensajeLabel);
-        panelLogin.add(Box.createVerticalStrut(10));
+        panelLogin.add(Box.createVerticalStrut(12));
 
         JPanel panelInfo = new JPanel();
         panelInfo.setOpaque(false);
@@ -242,7 +236,7 @@ public class MIUBANK extends JFrame {
                 BorderFactory.createLineBorder(new Color(140, 140, 140)),
                 BorderFactory.createEmptyBorder(6, 10, 6, 10)
         ));
-        panelInfo.setMaximumSize(new Dimension(300, 80));
+        panelInfo.setMaximumSize(new Dimension(310, 80));
         panelInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
         JLabel infoLabel = new JLabel("<html><div style='text-align:center;'><b>Usuarios de prueba:</b><br/>Admin: admin / admin123<br/>Empleado: empleado / emp123</div></html>");
         infoLabel.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -386,6 +380,57 @@ public class MIUBANK extends JFrame {
 
         ventanaEmpleado.add(panelFondo);
         ventanaEmpleado.setVisible(true);
+    }
+
+    private static class CatHeadPanel extends JPanel {
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            int w = getWidth();
+            int h = getHeight();
+
+            g2.setColor(new Color(216, 184, 138));
+            g2.fill(new Ellipse2D.Double(18, 18, 74, 60));
+
+            g2.setColor(new Color(68, 52, 35));
+            g2.fill(new Ellipse2D.Double(5, 28, 20, 20));
+            g2.fill(new Ellipse2D.Double(84, 28, 20, 20));
+
+            g2.setColor(new Color(240, 230, 210));
+            g2.fill(new Ellipse2D.Double(28, 36, 14, 14));
+            g2.fill(new Ellipse2D.Double(68, 36, 14, 14));
+
+            g2.setColor(Color.BLACK);
+            g2.fill(new Ellipse2D.Double(32, 40, 5, 5));
+            g2.fill(new Ellipse2D.Double(73, 40, 5, 5));
+
+            g2.drawLine(52, 44, 59, 44);
+            g2.drawLine(52, 52, 59, 52);
+            g2.drawLine(51, 48, 60, 48);
+
+            g2.setColor(new Color(132, 92, 51));
+            g2.fill(new Ellipse2D.Double(40, 51, 12, 10));
+            g2.fill(new Ellipse2D.Double(59, 51, 12, 10));
+
+            g2.setColor(new Color(40, 40, 40));
+            g2.fill(new Ellipse2D.Double(47, 65, 18, 12));
+
+            g2.setColor(new Color(200, 160, 110));
+            Path2D.Double tail = new Path2D.Double();
+            tail.moveTo(80, 45);
+            tail.quadTo(98, 22, 104, 30);
+            tail.quadTo(97, 47, 85, 53);
+            g2.fill(tail);
+
+            g2.setColor(new Color(110, 110, 110));
+            g2.fill(new Ellipse2D.Double(0, 70, 26, 18));
+            g2.fill(new Ellipse2D.Double(84, 70, 26, 18));
+
+            g2.dispose();
+        }
     }
 
     private static class FondoPatron extends JPanel {
