@@ -373,41 +373,203 @@ public class MIUBANK extends JFrame {
     }
 
     private void abrirVentanaEmpleado() {
-        JFrame ventanaEmpleado = new JFrame("Panel Ejecutivo Banquero - MIUBANK");
-        ventanaEmpleado.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        ventanaEmpleado.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    JFrame ventanaEmpleado = new JFrame("Panel Ejecutivo Banquero - MIUBANK");
+    ventanaEmpleado.setExtendedState(JFrame.MAXIMIZED_BOTH);
+    ventanaEmpleado.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        JPanel panelFondo = new JPanel(new BorderLayout());
-        panelFondo.setBackground(new Color(128, 128, 128));
+    JPanel panelFondo = new JPanel(new BorderLayout());
+    panelFondo.setBackground(new Color(128, 128, 128));
 
-        JPanel panelSuperior = new JPanel();
-        panelSuperior.setBackground(new Color(15, 50, 100));
-        panelSuperior.setBorder(BorderFactory.createEmptyBorder(18, 25, 18, 25));
-        JLabel titulo = new JLabel("Panel de Ejecutivo de Cuentas Banqueras 👔🐾");
-        titulo.setFont(new Font("Segoe UI", Font.BOLD, 28));
-        titulo.setForeground(Color.WHITE);
-        panelSuperior.add(titulo);
+    // Panel Superior con Título
+    JPanel panelSuperior = new JPanel();
+    panelSuperior.setBackground(new Color(15, 50, 100));
+    panelSuperior.setBorder(BorderFactory.createEmptyBorder(18, 25, 18, 25));
+    JLabel titulo = new JLabel("Panel de Ejecutivo de Cuentas Banqueras 👔🐾");
+    titulo.setFont(new Font("Segoe UI", Font.BOLD, 28));
+    titulo.setForeground(Color.WHITE);
+    panelSuperior.add(titulo);
 
-        JPanel panelContenido = new JPanel();
-        panelContenido.setBackground(new Color(235, 240, 248));
-        panelContenido.setLayout(new BoxLayout(panelContenido, BoxLayout.Y_AXIS));
-        panelContenido.setBorder(BorderFactory.createEmptyBorder(40, 50, 40, 50));
+    // Panel Central con Tabs
+    JTabbedPane panelTabs = new JTabbedPane();
+    panelTabs.setBackground(new Color(235, 240, 248));
+    panelTabs.setFont(new Font("Segoe UI", Font.BOLD, 14));
 
-        JLabel opciones = new JLabel("<html><font size='5' color='#0F50A0'><b>Operaciones Ejecutivas:</b></font><br/><br/>"
-                + "✓ Gestión de expedientes de clientes<br/><br/>"
-                + "✓ Apertura de cuentas de inversión<br/><br/>"
-                + "✓ Evaluación de solicitudes de crédito<br/><br/>"
-                + "✓ Consulta de movimientos bancarios<br/><br/>"
-                + "✓ Emisión de tarjetas y cheques</html>");
-        opciones.setFont(new Font("Segoe UI", Font.PLAIN, 17));
-        panelContenido.add(opciones);
+    // TAB 1: Información General
+    panelTabs.addTab("📋 Información General", crearPanelInformacion());
 
-        panelFondo.add(panelSuperior, BorderLayout.NORTH);
-        panelFondo.add(panelContenido, BorderLayout.CENTER);
+    // TAB 2: Registro de Préstamo
+    panelTabs.addTab("💰 Registrar Préstamo", crearPanelRegistroPrestamo());
 
-        ventanaEmpleado.add(panelFondo);
-        ventanaEmpleado.setVisible(true);
-    }
+    // TAB 3: Consultar Préstamos
+    panelTabs.addTab("📊 Consultar Préstamos", crearPanelConsultarPrestamos());
+
+    panelFondo.add(panelSuperior, BorderLayout.NORTH);
+    panelFondo.add(panelTabs, BorderLayout.CENTER);
+
+    ventanaEmpleado.add(panelFondo);
+    ventanaEmpleado.setVisible(true);
+}
+
+private JPanel crearPanelInformacion() {
+    JPanel panel = new JPanel();
+    panel.setBackground(new Color(235, 240, 248));
+    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+    panel.setBorder(BorderFactory.createEmptyBorder(40, 50, 40, 50));
+
+    JLabel opciones = new JLabel("<html><font size='5' color='#0F50A0'><b>Operaciones Ejecutivas:</b></font><br/><br/>"
+            + "✓ Gestión de expedientes de clientes<br/><br/>"
+            + "✓ Apertura de cuentas de inversión<br/><br/>"
+            + "✓ Evaluación de solicitudes de crédito<br/><br/>"
+            + "✓ Consulta de movimientos bancarios<br/><br/>"
+            + "✓ Emisión de tarjetas y cheques</html>");
+    opciones.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+    panel.add(opciones);
+    panel.add(Box.createVerticalGlue());
+
+    return panel;
+}
+
+private JPanel crearPanelRegistroPrestamo() {
+    JPanel panel = new JPanel();
+    panel.setBackground(new Color(235, 240, 248));
+    panel.setLayout(new BorderLayout());
+    panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
+
+    // Panel de Formulario
+    JPanel panelFormulario = new JPanel();
+    panelFormulario.setBackground(Color.WHITE);
+    panelFormulario.setBorder(BorderFactory.createTitledBorder(
+            BorderFactory.createLineBorder(new Color(15, 80, 160), 2),
+            "Datos del Préstamo Bancario",
+            javax.swing.border.TitledBorder.LEFT,
+            javax.swing.border.TitledBorder.TOP,
+            new Font("Segoe UI", Font.BOLD, 16),
+            new Color(15, 80, 160)
+    ));
+    panelFormulario.setLayout(new GridBagLayout());
+
+    GridBagConstraints gbc = new GridBagConstraints();
+    gbc.insets = new Insets(12, 20, 12, 20);
+    gbc.fill = GridBagConstraints.HORIZONTAL;
+
+    // 1. Nombre del Cliente
+    JLabel lblNombreCliente = new JLabel("Nombre del Cliente:");
+    lblNombreCliente.setFont(new Font("Segoe UI", Font.BOLD, 14));
+    lblNombreCliente.setForeground(new Color(40, 50, 70));
+    gbc.gridx = 0;
+    gbc.gridy = 0;
+    gbc.weightx = 0.2;
+    panelFormulario.add(lblNombreCliente, gbc);
+
+    JTextField txtNombreCliente = new JTextField(25);
+    estilarCampoTexto(txtNombreCliente);
+    gbc.gridx = 1;
+    gbc.gridy = 0;
+    gbc.weightx = 0.8;
+    panelFormulario.add(txtNombreCliente, gbc);
+
+    // 2. Cédula de Identidad
+    JLabel lblCedula = new JLabel("Cédula de Identidad:");
+    lblCedula.setFont(new Font("Segoe UI", Font.BOLD, 14));
+    lblCedula.setForeground(new Color(40, 50, 70));
+    gbc.gridx = 0;
+    gbc.gridy = 1;
+    panelFormulario.add(lblCedula, gbc);
+
+    JTextField txtCedula = new JTextField(25);
+    estilarCampoTexto(txtCedula);
+    gbc.gridx = 1;
+    gbc.gridy = 1;
+    panelFormulario.add(txtCedula, gbc);
+
+    // 3. Monto del Préstamo
+    JLabel lblMonto = new JLabel("Monto del Préstamo ($):");
+    lblMonto.setFont(new Font("Segoe UI", Font.BOLD, 14));
+    lblMonto.setForeground(new Color(40, 50, 70));
+    gbc.gridx = 0;
+    gbc.gridy = 2;
+    panelFormulario.add(lblMonto, gbc);
+
+    JTextField txtMonto = new JTextField(25);
+    estilarCampoTexto(txtMonto);
+    gbc.gridx = 1;
+    gbc.gridy = 2;
+    panelFormulario.add(txtMonto, gbc);
+
+    // 4. Tasa de Interés
+    JLabel lblTasaInteres = new JLabel("Tasa de Interés (%):");
+    lblTasaInteres.setFont(new Font("Segoe UI", Font.BOLD, 14));
+    lblTasaInteres.setForeground(new Color(40, 50, 70));
+    gbc.gridx = 0;
+    gbc.gridy = 3;
+    panelFormulario.add(lblTasaInteres, gbc);
+
+    JTextField txtTasaInteres = new JTextField(25);
+    estilarCampoTexto(txtTasaInteres);
+    gbc.gridx = 1;
+    gbc.gridy = 3;
+    panelFormulario.add(txtTasaInteres, gbc);
+
+    // 5. Plazo (en meses)
+    JLabel lblPlazo = new JLabel("Plazo (meses):");
+    lblPlazo.setFont(new Font("Segoe UI", Font.BOLD, 14));
+    lblPlazo.setForeground(new Color(40, 50, 70));
+    gbc.gridx = 0;
+    gbc.gridy = 4;
+    panelFormulario.add(lblPlazo, gbc);
+
+    JTextField txtPlazo = new JTextField(25);
+    estilarCampoTexto(txtPlazo);
+    gbc.gridx = 1;
+    gbc.gridy = 4;
+    panelFormulario.add(txtPlazo, gbc);
+
+    // 6. Tipo de Préstamo
+    JLabel lblTipoPrestamo = new JLabel("Tipo de Préstamo:");
+    lblTipoPrestamo.setFont(new Font("Segoe UI", Font.BOLD, 14));
+    lblTipoPrestamo.setForeground(new Color(40, 50, 70));
+    gbc.gridx = 0;
+    gbc.gridy = 5;
+    panelFormulario.add(lblTipoPrestamo, gbc);
+
+    JComboBox<String> cmbTipoPrestamo = new JComboBox<>(
+            new String[]{"Personal", "Hipotecario", "Automotriz", "Empresarial", "Estudios"}
+    );
+    cmbTipoPrestamo.setPreferredSize(new Dimension(280, 40));
+    cmbTipoPrestamo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+    cmbTipoPrestamo.setBackground(Color.WHITE);
+    gbc.gridx = 1;
+    gbc.gridy = 5;
+    panelFormulario.add(cmbTipoPrestamo, gbc);
+
+    // 7. Fecha de Solicitud
+    JLabel lblFechaSolicitud = new JLabel("Fecha de Solicitud:");
+    lblFechaSolicitud.setFont(new Font("Segoe UI", Font.BOLD, 14));
+    lblFechaSolicitud.setForeground(new Color(40, 50, 70));
+    gbc.gridx = 0;
+    gbc.gridy = 6;
+    panelFormulario.add(lblFechaSolicitud, gbc);
+
+    JTextField txtFecha = new JTextField(25);
+    txtFecha.setText(new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()));
+    txtFecha.setEditable(false);
+    estilarCampoTexto(txtFecha);
+    gbc.gridx = 1;
+    gbc.gridy = 6;
+    panelFormulario.add(txtFecha, gbc);
+
+    // 8. Estado del Préstamo
+    JLabel lblEstado = new JLabel("Estado:");
+    lblEstado.setFont(new Font("Segoe UI", Font.BOLD, 14));
+    lblEstado.setForeground(new Color(40, 50, 70));
+    gbc.gridx = 0;
+    gbc.gridy = 7;
+    panelFormulario.add(lblEstado, gbc);
+
+    JComboBox<String> cmbEstado = new JComboBox<>(
+            new String[]{"Pendiente", "Aprobado", "Rechazado", "Cancel
+                        }
+        
 
     // --- ÍCONOS VECTORIALES EMPRESARIALES ---
 
