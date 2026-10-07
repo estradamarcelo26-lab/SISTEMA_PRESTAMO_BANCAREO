@@ -7,11 +7,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 
 /**
- *
- * @author Usuario
+ * Sistema de Login MIUBANK con temática de gatos.
  */
 public class MIUBANK extends JFrame {
     private JTextField usuarioField;
@@ -44,7 +44,7 @@ public class MIUBANK extends JFrame {
         gbc.gridy = 0;
         gbc.weightx = 1;
         gbc.weighty = 1;
-        fondo.add(crearPanelLogin(), gbc);
+        fondo.add(crearContenedorConGato(), gbc);
 
         add(fondo, BorderLayout.CENTER);
         setVisible(true);
@@ -59,7 +59,9 @@ public class MIUBANK extends JFrame {
         JLabel titulo = new JLabel(" MIUBANK - Sistema de Login");
         titulo.setFont(new Font("Arial", Font.BOLD, 13));
         titulo.setForeground(new Color(55, 55, 55));
-        titulo.setIcon(new ImageIcon(generarIconoLogo(18, 18, new Color(0, 102, 204))));
+        
+        // Ícono de gatito pequeño para la barra de título
+        titulo.setIcon(new ImageIcon(generarIconoGatoBarra(18, 18)));
         titulo.setBorder(new EmptyBorder(0, 8, 0, 0));
         barra.add(titulo, BorderLayout.WEST);
 
@@ -91,69 +93,74 @@ public class MIUBANK extends JFrame {
         return boton;
     }
 
-    private Image generarIconoLogo(int width, int height, Color color) {
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2 = image.createGraphics();
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    /**
+     * Envuelve el panel de Login permitiendo que el gato asomado sobresalga en la parte superior.
+     */
+    private JComponent crearContenedorConGato() {
+        JLayeredPane layeredPane = new JLayeredPane();
+        layeredPane.setPreferredSize(new Dimension(620, 630));
 
-        g2.setColor(color);
-        g2.fillRoundRect(2, 2, width - 6, height - 6, 4, 4);
+        JPanel panelLogin = crearPanelLogin();
+        panelLogin.setBounds(0, 40, 620, 590);
 
-        g2.setColor(Color.WHITE);
-        g2.fillRect(5, 5, 2, 10);
-        g2.fillRect(10, 5, 2, 10);
-        g2.fillRect(6, 11, 8, 2);
+        CatPeekPanel catPeek = new CatPeekPanel();
+        catPeek.setBounds(240, 0, 140, 60);
 
-        g2.dispose();
-        return image;
+        layeredPane.add(panelLogin, JLayeredPane.DEFAULT_LAYER);
+        layeredPane.add(catPeek, JLayeredPane.PALETTE_LAYER);
+
+        return layeredPane;
     }
 
     private JPanel crearPanelLogin() {
         JPanel panelLogin = new JPanel();
-        panelLogin.setBackground(new Color(210, 210, 210, 210));
+        panelLogin.setBackground(new Color(210, 210, 210));
         panelLogin.setLayout(new BoxLayout(panelLogin, BoxLayout.Y_AXIS));
         panelLogin.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(120, 120, 120), 2),
-                BorderFactory.createEmptyBorder(15, 35, 15, 35)
+                BorderFactory.createEmptyBorder(20, 35, 15, 35)
         ));
-        panelLogin.setPreferredSize(new Dimension(620, 590));
-        panelLogin.setMaximumSize(new Dimension(620, 590));
-        panelLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // Header
         JPanel header = new JPanel();
         header.setOpaque(false);
         header.setLayout(new BoxLayout(header, BoxLayout.Y_AXIS));
         header.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        CatHeadPanel catHead = new CatHeadPanel();
-        catHead.setPreferredSize(new Dimension(110, 88));
-        catHead.setMaximumSize(new Dimension(110, 88));
-        header.add(catHead);
+        // Fila de título con gato dormido
+        JPanel titleRow = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        titleRow.setOpaque(false);
+
+        GatoDormidoPanel gatoDormido = new GatoDormidoPanel();
+        gatoDormido.setPreferredSize(new Dimension(70, 50));
+        titleRow.add(gatoDormido);
 
         JLabel titulo = new JLabel("MIUBANK");
-        titulo.setFont(new Font("Arial", Font.BOLD, 64));
+        titulo.setFont(new Font("Arial", Font.BOLD, 54));
         titulo.setForeground(new Color(0, 83, 140));
-        titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        header.add(Box.createVerticalStrut(4));
-        header.add(titulo);
+        titleRow.add(titulo);
+
+        header.add(titleRow);
 
         JLabel subtitulo = new JLabel("Sistema de Login");
-        subtitulo.setFont(new Font("Arial", Font.PLAIN, 24));
-        subtitulo.setForeground(new Color(45, 45, 45));
+        subtitulo.setFont(new Font("Arial", Font.PLAIN, 22));
+        subtitulo.setForeground(new Color(60, 60, 60));
         subtitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        header.add(Box.createVerticalStrut(2));
         header.add(subtitulo);
 
         panelLogin.add(header);
-        panelLogin.add(Box.createVerticalStrut(18));
+        panelLogin.add(Box.createVerticalStrut(20));
 
+        // Formulario
         JPanel form = new JPanel(new GridBagLayout());
         form.setOpaque(false);
         GridBagConstraints g = new GridBagConstraints();
-        g.insets = new Insets(10, 15, 10, 15);
+        g.insets = new Insets(8, 15, 8, 15);
         g.fill = GridBagConstraints.HORIZONTAL;
 
         JLabel usuarioLabel = new JLabel("Usuario:");
-        usuarioLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        usuarioLabel.setFont(new Font("Arial", Font.BOLD, 18));
         usuarioLabel.setForeground(new Color(40, 40, 40));
         g.gridx = 0;
         g.gridy = 0;
@@ -161,8 +168,8 @@ public class MIUBANK extends JFrame {
         form.add(usuarioLabel, g);
 
         usuarioField = new JTextField("admin");
-        usuarioField.setFont(new Font("Arial", Font.PLAIN, 20));
-        usuarioField.setPreferredSize(new Dimension(260, 36));
+        usuarioField.setFont(new Font("Arial", Font.PLAIN, 18));
+        usuarioField.setPreferredSize(new Dimension(260, 34));
         usuarioField.setBackground(new Color(250, 250, 250));
         usuarioField.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(180, 180, 180)),
@@ -174,16 +181,16 @@ public class MIUBANK extends JFrame {
         form.add(usuarioField, g);
 
         JLabel contrasenaLabel = new JLabel("Contraseña:");
-        contrasenaLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        contrasenaLabel.setFont(new Font("Arial", Font.BOLD, 18));
         contrasenaLabel.setForeground(new Color(40, 40, 40));
         g.gridx = 0;
         g.gridy = 1;
         g.weightx = 0.2;
         form.add(contrasenaLabel, g);
 
-        contrasenaField = new JPasswordField("******");
-        contrasenaField.setFont(new Font("Arial", Font.PLAIN, 20));
-        contrasenaField.setPreferredSize(new Dimension(260, 36));
+        contrasenaField = new JPasswordField("admin123");
+        contrasenaField.setFont(new Font("Arial", Font.PLAIN, 18));
+        contrasenaField.setPreferredSize(new Dimension(260, 34));
         contrasenaField.setBackground(new Color(250, 250, 250));
         contrasenaField.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(180, 180, 180)),
@@ -195,88 +202,74 @@ public class MIUBANK extends JFrame {
         form.add(contrasenaField, g);
 
         panelLogin.add(form);
-        panelLogin.add(Box.createVerticalStrut(24));
+        panelLogin.add(Box.createVerticalStrut(20));
 
-        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 18, 0));
+        // Botones
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
         panelBotones.setOpaque(false);
 
         JButton botonIngresar = new JButton("Ingresar");
-        botonIngresar.setPreferredSize(new Dimension(170, 42));
-        botonIngresar.setBackground(new Color(0, 123, 255));
+        botonIngresar.setPreferredSize(new Dimension(160, 40));
+        botonIngresar.setBackground(new Color(0, 102, 204));
         botonIngresar.setForeground(Color.WHITE);
         botonIngresar.setFocusPainted(false);
-        botonIngresar.setFont(new Font("Arial", Font.BOLD, 18));
+        botonIngresar.setFont(new Font("Arial", Font.BOLD, 16));
         botonIngresar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        botonIngresar.setIcon(new ImageIcon(generarIconoBoton(18, 18, new Color(255, 255, 255))));
+        botonIngresar.setIcon(new ImageIcon(generarIconoHuella(18, 18, Color.WHITE)));
 
         JButton botonLimpiar = new JButton("Limpiar");
-        botonLimpiar.setPreferredSize(new Dimension(170, 42));
-        botonLimpiar.setBackground(new Color(220, 220, 220));
+        botonLimpiar.setPreferredSize(new Dimension(160, 40));
+        botonLimpiar.setBackground(new Color(230, 230, 230));
         botonLimpiar.setForeground(new Color(50, 50, 50));
         botonLimpiar.setFocusPainted(false);
-        botonLimpiar.setFont(new Font("Arial", Font.BOLD, 18));
+        botonLimpiar.setFont(new Font("Arial", Font.BOLD, 16));
         botonLimpiar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        botonLimpiar.setIcon(new ImageIcon(generarIconoBoton(18, 18, new Color(90, 90, 90))));
+        botonLimpiar.setIcon(new ImageIcon(generarIconoEstambre(18, 18, new Color(70, 70, 70))));
 
         panelBotones.add(botonIngresar);
         panelBotones.add(botonLimpiar);
         panelLogin.add(panelBotones);
-        panelLogin.add(Box.createVerticalStrut(18));
+        panelLogin.add(Box.createVerticalStrut(15));
 
         mensajeLabel = new JLabel("", SwingConstants.CENTER);
-        mensajeLabel.setFont(new Font("Arial", Font.BOLD, 18));
-        mensajeLabel.setForeground(new Color(255, 0, 0));
+        mensajeLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        mensajeLabel.setForeground(new Color(0, 150, 0));
         mensajeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelLogin.add(mensajeLabel);
-        panelLogin.add(Box.createVerticalStrut(12));
+        panelLogin.add(Box.createVerticalStrut(10));
 
+        // Gato inferior
+        CaritaGatoInferior caritaInferior = new CaritaGatoInferior();
+        caritaInferior.setPreferredSize(new Dimension(60, 50));
+        caritaInferior.setMaximumSize(new Dimension(60, 50));
+        caritaInferior.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelLogin.add(caritaInferior);
+        panelLogin.add(Box.createVerticalStrut(10));
+
+        // Información
         JPanel panelInfo = new JPanel();
         panelInfo.setOpaque(false);
         panelInfo.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(140, 140, 140)),
-                BorderFactory.createEmptyBorder(6, 10, 6, 10)
+                BorderFactory.createEmptyBorder(6, 12, 6, 12)
         ));
-        panelInfo.setMaximumSize(new Dimension(310, 80));
+        panelInfo.setMaximumSize(new Dimension(340, 75));
         panelInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
         JLabel infoLabel = new JLabel("<html><div style='text-align:center;'><b>Usuarios de prueba:</b><br/>Admin: admin / admin123<br/>Empleado: empleado / emp123</div></html>");
-        infoLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+        infoLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         panelInfo.add(infoLabel);
         panelLogin.add(panelInfo);
 
-        botonIngresar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                validarLogin();
-            }
+        // Listeners
+        botonIngresar.addActionListener(e -> validarLogin());
+        botonLimpiar.addActionListener(e -> {
+            usuarioField.setText("");
+            contrasenaField.setText("");
+            mensajeLabel.setText("");
         });
-
-        botonLimpiar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                usuarioField.setText("");
-                contrasenaField.setText("");
-                mensajeLabel.setText("");
-            }
-        });
-
-        contrasenaField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                validarLogin();
-            }
-        });
+        contrasenaField.addActionListener(e -> validarLogin());
 
         return panelLogin;
-    }
-
-    private Image generarIconoBoton(int width, int height, Color color) {
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2 = image.createGraphics();
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(color);
-        g2.fillOval(2, 2, width - 5, height - 5);
-        g2.dispose();
-        return image;
     }
 
     private void validarLogin() {
@@ -291,11 +284,11 @@ public class MIUBANK extends JFrame {
 
         if (usuario.equals(ADMIN_USER) && contrasena.equals(ADMIN_PASS)) {
             mensajeLabel.setText("¡Bienvenido Admin!");
-            mensajeLabel.setForeground(new Color(0, 150, 0));
+            mensajeLabel.setForeground(new Color(0, 140, 40));
             abrirVentanaAdmin();
         } else if (usuario.equals(EMPLEADO_USER) && contrasena.equals(EMPLEADO_PASS)) {
             mensajeLabel.setText("¡Bienvenido Empleado!");
-            mensajeLabel.setForeground(new Color(0, 150, 0));
+            mensajeLabel.setForeground(new Color(0, 140, 40));
             abrirVentanaEmpleado();
         } else {
             mensajeLabel.setText("Usuario o contraseña incorrectos");
@@ -309,14 +302,13 @@ public class MIUBANK extends JFrame {
         ventanaAdmin.setExtendedState(JFrame.MAXIMIZED_BOTH);
         ventanaAdmin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        JPanel panelFondo = new JPanel();
+        JPanel panelFondo = new JPanel(new BorderLayout());
         panelFondo.setBackground(new Color(128, 128, 128));
-        panelFondo.setLayout(new BorderLayout());
 
         JPanel panelSuperior = new JPanel();
         panelSuperior.setBackground(new Color(0, 51, 102));
         panelSuperior.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
-        JLabel titulo = new JLabel("Panel de Administrador");
+        JLabel titulo = new JLabel("Panel de Administrador 🐱");
         titulo.setFont(new Font("Arial", Font.BOLD, 28));
         titulo.setForeground(Color.WHITE);
         panelSuperior.add(titulo);
@@ -348,14 +340,13 @@ public class MIUBANK extends JFrame {
         ventanaEmpleado.setExtendedState(JFrame.MAXIMIZED_BOTH);
         ventanaEmpleado.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        JPanel panelFondo = new JPanel();
+        JPanel panelFondo = new JPanel(new BorderLayout());
         panelFondo.setBackground(new Color(128, 128, 128));
-        panelFondo.setLayout(new BorderLayout());
 
         JPanel panelSuperior = new JPanel();
         panelSuperior.setBackground(new Color(0, 51, 102));
         panelSuperior.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
-        JLabel titulo = new JLabel("Panel de Empleado");
+        JLabel titulo = new JLabel("Panel de Empleado 🐾");
         titulo.setFont(new Font("Arial", Font.BOLD, 28));
         titulo.setForeground(Color.WHITE);
         panelSuperior.add(titulo);
@@ -382,54 +373,232 @@ public class MIUBANK extends JFrame {
         ventanaEmpleado.setVisible(true);
     }
 
-    private static class CatHeadPanel extends JPanel {
+    // --- MÉTODOS DE GENERACIÓN VECTORIAL DE ÍCONOS ---
+
+    private Image generarIconoHuella(int width, int height, Color color) {
+        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = img.createGraphics();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor(color);
+
+        // Almohadilla principal
+        g2.fillOval(4, 8, 10, 8);
+        // Dedos
+        g2.fillOval(3, 3, 4, 4);
+        g2.fillOval(7, 1, 4, 4);
+        g2.fillOval(11, 3, 4, 4);
+
+        g2.dispose();
+        return img;
+    }
+
+    private Image generarIconoEstambre(int width, int height, Color color) {
+        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = img.createGraphics();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor(color);
+
+        g2.drawOval(2, 2, 13, 13);
+        g2.drawArc(4, 4, 9, 9, 45, 180);
+        g2.drawArc(1, 6, 12, 6, -30, 150);
+
+        g2.dispose();
+        return img;
+    }
+
+    private Image generarIconoGatoBarra(int width, int height) {
+        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = img.createGraphics();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        g2.setColor(new Color(220, 160, 100));
+        g2.fillOval(2, 5, 14, 11); // cabeza
+        
+        // Orejas
+        Path2D.Double ear1 = new Path2D.Double();
+        ear1.moveTo(3, 6); ear1.lineTo(5, 1); ear1.lineTo(7, 5); ear1.closePath();
+        g2.fill(ear1);
+
+        Path2D.Double ear2 = new Path2D.Double();
+        ear2.moveTo(11, 5); ear2.lineTo(13, 1); ear2.lineTo(15, 6); ear2.closePath();
+        g2.fill(ear2);
+
+        g2.setColor(Color.BLACK);
+        g2.fillOval(5, 8, 2, 2);
+        g2.fillOval(11, 8, 2, 2);
+
+        g2.dispose();
+        return img;
+    }
+
+    // --- COMPONENTES VECTORIALES PERSONALIZADOS ---
+
+    /**
+     * Gato asomándose en la parte superior del marco de Login.
+     */
+    private static class CatPeekPanel extends JPanel {
+        public CatPeekPanel() {
+            setOpaque(false);
+        }
+
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-            g2.setColor(new Color(216, 184, 138));
-            g2.fill(new Ellipse2D.Double(18, 18, 74, 60));
+            int cx = getWidth() / 2;
 
-            g2.setColor(new Color(68, 52, 35));
-            g2.fill(new Ellipse2D.Double(5, 28, 20, 20));
-            g2.fill(new Ellipse2D.Double(84, 28, 20, 20));
+            // Oreja izquierda
+            g2.setColor(new Color(220, 170, 120));
+            Path2D.Double earL = new Path2D.Double();
+            earL.moveTo(cx - 38, 30);
+            earL.lineTo(cx - 28, 2);
+            earL.lineTo(cx - 12, 22);
+            earL.closePath();
+            g2.fill(earL);
 
-            g2.setColor(new Color(240, 230, 210));
-            g2.fill(new Ellipse2D.Double(28, 36, 14, 14));
-            g2.fill(new Ellipse2D.Double(68, 36, 14, 14));
+            // Oreja derecha
+            Path2D.Double earR = new Path2D.Double();
+            earR.moveTo(cx + 12, 22);
+            earR.lineTo(cx + 28, 2);
+            earR.lineTo(cx + 38, 30);
+            earR.closePath();
+            g2.fill(earR);
 
-            g2.setColor(Color.BLACK);
-            g2.fill(new Ellipse2D.Double(32, 40, 5, 5));
-            g2.fill(new Ellipse2D.Double(73, 40, 5, 5));
+            // Interior Orejas (Rosa)
+            g2.setColor(new Color(245, 190, 190));
+            Path2D.Double earL_in = new Path2D.Double();
+            earL_in.moveTo(cx - 34, 28);
+            earL_in.lineTo(cx - 28, 7);
+            earL_in.lineTo(cx - 16, 22);
+            earL_in.closePath();
+            g2.fill(earL_in);
 
-            g2.drawLine(52, 44, 59, 44);
-            g2.drawLine(52, 52, 59, 52);
-            g2.drawLine(51, 48, 60, 48);
+            Path2D.Double earR_in = new Path2D.Double();
+            earR_in.moveTo(cx + 16, 22);
+            earR_in.lineTo(cx + 28, 7);
+            earR_in.lineTo(cx + 34, 28);
+            earR_in.closePath();
+            g2.fill(earR_in);
 
-            g2.setColor(new Color(132, 92, 51));
-            g2.fill(new Ellipse2D.Double(40, 51, 12, 10));
-            g2.fill(new Ellipse2D.Double(59, 51, 12, 10));
+            // Cabeza
+            g2.setColor(new Color(235, 185, 135));
+            g2.fillOval(cx - 45, 15, 90, 45);
 
-            g2.setColor(new Color(40, 40, 40));
-            g2.fill(new Ellipse2D.Double(47, 65, 18, 12));
+            // Ojos
+            g2.setColor(new Color(50, 40, 30));
+            g2.fillOval(cx - 22, 27, 8, 8);
+            g2.fillOval(cx + 14, 27, 8, 8);
 
-            g2.setColor(new Color(200, 160, 110));
-            Path2D.Double tail = new Path2D.Double();
-            tail.moveTo(80, 45);
-            tail.quadTo(98, 22, 104, 30);
-            tail.quadTo(97, 47, 85, 53);
-            g2.fill(tail);
+            // Nariz
+            g2.setColor(new Color(230, 120, 120));
+            g2.fillOval(cx - 3, 34, 6, 4);
 
-            g2.setColor(new Color(110, 110, 110));
-            g2.fill(new Ellipse2D.Double(0, 70, 26, 18));
-            g2.fill(new Ellipse2D.Double(84, 70, 26, 18));
+            // Bigotes
+            g2.setColor(new Color(60, 60, 60));
+            g2.setStroke(new BasicStroke(1.2f));
+            g2.drawLine(cx - 10, 37, cx - 32, 33);
+            g2.drawLine(cx - 10, 39, cx - 30, 41);
+            g2.drawLine(cx + 10, 37, cx + 32, 33);
+            g2.drawLine(cx + 10, 39, cx + 30, 41);
+
+            // Patitas apoyadas en el borde
+            g2.setColor(new Color(245, 235, 220));
+            g2.fillOval(cx - 35, 38, 22, 14);
+            g2.fillOval(cx + 13, 38, 22, 14);
+
+            g2.setColor(new Color(190, 180, 170));
+            g2.drawOval(cx - 35, 38, 22, 14);
+            g2.drawOval(cx + 13, 38, 22, 14);
 
             g2.dispose();
         }
     }
 
+    /**
+     * Dibujo de gato dormido acostado al lado del título.
+     */
+    private static class GatoDormidoPanel extends JPanel {
+        public GatoDormidoPanel() { setOpaque(false); }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            // Cuerpo
+            g2.setColor(new Color(225, 160, 90));
+            g2.fillOval(10, 15, 45, 28);
+            // Cabeza
+            g2.fillOval(5, 18, 22, 20);
+            // Manchas blancas
+            g2.setColor(Color.WHITE);
+            g2.fillOval(22, 20, 18, 18);
+
+            // Ojos cerrados (arcos)
+            g2.setColor(new Color(70, 50, 30));
+            g2.setStroke(new BasicStroke(1.5f));
+            g2.drawArc(9, 25, 6, 5, 0, 180);
+            g2.drawArc(16, 25, 6, 5, 0, 180);
+
+            // Cola rodeando el cuerpo
+            g2.setStroke(new BasicStroke(4f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+            g2.drawArc(28, 12, 28, 28, -60, 150);
+
+            g2.dispose();
+        }
+    }
+
+    /**
+     * Carita decorativa inferior.
+     */
+    private static class CaritaGatoInferior extends JPanel {
+        public CaritaGatoInferior() { setOpaque(false); }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            int cx = getWidth() / 2;
+
+            // Orejitas
+            g2.setColor(new Color(80, 80, 80));
+            int[] xL = {cx - 20, cx - 12, cx - 5};
+            int[] yL = {18, 2, 15};
+            g2.fillPolygon(xL, yL, 3);
+
+            int[] xR = {cx + 5, cx + 12, cx + 20};
+            int[] yR = {15, 2, 18};
+            g2.fillPolygon(xR, yR, 3);
+
+            // Cabeza
+            g2.setColor(new Color(100, 100, 100));
+            g2.fillOval(cx - 22, 10, 44, 34);
+
+            // Ojos
+            g2.setColor(new Color(255, 220, 100));
+            g2.fillOval(cx - 14, 20, 9, 9);
+            g2.fillOval(cx + 5, 20, 9, 9);
+
+            g2.setColor(Color.BLACK);
+            g2.fillOval(cx - 11, 22, 3, 5);
+            g2.fillOval(cx + 8, 22, 3, 5);
+
+            // Nariz
+            g2.setColor(new Color(240, 160, 160));
+            g2.fillOval(cx - 2, 29, 4, 3);
+
+            g2.dispose();
+        }
+    }
+
+    /**
+     * Fondo con patrón repitiendo siluetas de gatos y huellas.
+     */
     private static class FondoPatron extends JPanel {
         @Override
         protected void paintComponent(Graphics g) {
@@ -437,58 +606,55 @@ public class MIUBANK extends JFrame {
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-            g2.setColor(new Color(137, 137, 137));
+            // Fondo base gris
+            g2.setColor(new Color(130, 130, 130));
             g2.fillRect(0, 0, getWidth(), getHeight());
 
-            int pasoX = 200;
-            int pasoY = 160;
-            for (int y = -40; y < getHeight() + 50; y += pasoY) {
-                for (int x = -60; x < getWidth() + 80; x += pasoX) {
-                    dibujarSilhouetteGato(g2, x, y, 1.0f);
-                    dibujarHuella(g2, x + 130, y + 85, 28);
+            int pasoX = 220;
+            int pasoY = 170;
+
+            for (int y = -30; y < getHeight() + 60; y += pasoY) {
+                for (int x = -40; x < getWidth() + 60; x += pasoX) {
+                    dibujarSiluetaGato(g2, x, y);
+                    dibujarHuella(g2, x + 130, y + 80, 24);
                 }
             }
 
             g2.dispose();
         }
 
-        private void dibujarSilhouetteGato(Graphics2D g2, int x, int y, float escala) {
-            g2.setColor(new Color(55, 55, 55, 210));
-            int sx = Math.round(x * escala);
-            int sy = Math.round(y * escala);
+        private void dibujarSiluetaGato(Graphics2D g2, int x, int y) {
+            g2.setColor(new Color(65, 65, 65, 180));
 
-            Ellipse2D.Double body = new Ellipse2D.Double(sx + 12, sy + 70, 140, 120);
-            g2.fill(body);
+            // Cuerpo sentado
+            g2.fillOval(x + 10, y + 35, 55, 65);
+            // Cabeza
+            g2.fillOval(x + 18, y + 10, 38, 34);
 
-            Ellipse2D.Double head = new Ellipse2D.Double(sx + 42, sy + 12, 88, 80);
-            g2.fill(head);
+            // Orejas
+            Path2D.Double ear1 = new Path2D.Double();
+            ear1.moveTo(x + 20, 18); ear1.lineTo(x + 25, 2); ear1.lineTo(x + 32, 14); ear1.closePath();
+            g2.fill(ear1);
 
-            g2.fill(new Ellipse2D.Double(sx + 60, sy + 20, 18, 18));
-            g2.fill(new Ellipse2D.Double(sx + 100, sy + 20, 18, 18));
+            Path2D.Double ear2 = new Path2D.Double();
+            ear2.moveTo(x + 42, 14); ear2.lineTo(x + 49, 2); ear2.lineTo(x + 54, 18); ear2.closePath();
+            g2.fill(ear2);
 
+            // Cola
             Path2D.Double cola = new Path2D.Double();
-            cola.moveTo(sx + 132, sy + 100);
-            cola.quadTo(sx + 190, sy + 50, sx + 175, sy + 8);
-            cola.quadTo(sx + 155, sy + 20, sx + 145, sy + 55);
+            cola.moveTo(x + 60, y + 80);
+            cola.quadTo(x + 90, y + 55, x + 82, y + 30);
+            cola.quadTo(x + 72, y + 45, x + 55, y + 70);
             g2.fill(cola);
-
-            g2.setColor(new Color(65, 65, 65, 220));
-            g2.fill(new Ellipse2D.Double(sx + 80, sy + 140, 40, 28));
-            g2.fill(new Ellipse2D.Double(sx + 120, sy + 140, 40, 28));
-
-            g2.setColor(new Color(55, 55, 55, 210));
-            g2.fill(new Ellipse2D.Double(sx + 22, sy + 125, 32, 32));
-            g2.fill(new Ellipse2D.Double(sx + 137, sy + 125, 32, 32));
         }
 
         private void dibujarHuella(Graphics2D g2, int x, int y, int size) {
-            g2.setColor(new Color(55, 55, 55, 170));
+            g2.setColor(new Color(65, 65, 65, 140));
             int s = size;
-            g2.fillOval(x, y + s / 5, s / 3, s / 3);
-            g2.fillOval(x + s / 3, y, s / 3, s / 3);
-            g2.fillOval(x + 2 * s / 3, y + s / 5, s / 3, s / 3);
-            g2.fillOval(x + s / 3, y + s / 3, s / 3, s / 3);
-            g2.fillOval(x + s / 2, y + 2 * s / 3, s / 4, s / 4);
+            g2.fillOval(x, y + s / 4, s / 2, s / 3);
+            g2.fillOval(x + s / 6, y, s / 4, s / 4);
+            g2.fillOval(x + s / 2, y - 2, s / 4, s / 4);
+            g2.fillOval(x + (4 * s) / 5, y + s / 8, s / 4, s / 4);
         }
     }
 
