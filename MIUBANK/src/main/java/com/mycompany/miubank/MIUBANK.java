@@ -2,6 +2,7 @@ package com.mycompany.miubank;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
@@ -13,6 +14,10 @@ public class MIUBANK extends JFrame {
     private JTextField usuarioField;
     private JPasswordField contrasenaField;
     private JLabel mensajeLabel;
+    private final DefaultTableModel modeloPrestamos = new DefaultTableModel(
+            new Object[]{"Cliente", "Cédula", "Monto", "Tasa", "Plazo", "Tipo", "Fecha", "Estado"},
+            0
+    );
 
     private static final String ADMIN_USER = "admin";
     private static final String ADMIN_PASS = "admin123";
@@ -55,7 +60,7 @@ public class MIUBANK extends JFrame {
         JLabel titulo = new JLabel(" MIUBANK - Portal Financiero Ejecutivo");
         titulo.setFont(new Font("Segoe UI", Font.BOLD, 14));
         titulo.setForeground(new Color(40, 50, 70));
-        
+
         titulo.setIcon(new ImageIcon(generarIconoGatoEmpresarialBarra(26, 26)));
         titulo.setBorder(new EmptyBorder(0, 12, 0, 0));
         barra.add(titulo, BorderLayout.WEST);
@@ -106,7 +111,6 @@ public class MIUBANK extends JFrame {
         JPanel panelLogin = crearPanelLogin();
         panelLogin.setBounds(0, 85, 680, 610);
 
-        // Gato grande empresarial asomándose arriba
         GatoEjecutivoSuperior catPeek = new GatoEjecutivoSuperior();
         catPeek.setBounds(190, 0, 300, 120);
 
@@ -122,13 +126,11 @@ public class MIUBANK extends JFrame {
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                
-                // Fondo elegante empresarial
+
                 GradientPaint gp = new GradientPaint(0, 0, new Color(250, 252, 255), 0, getHeight(), new Color(225, 232, 242));
                 g2.setPaint(gp);
                 g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 28, 28));
 
-                // Borde ejecutivo
                 g2.setColor(new Color(170, 185, 205));
                 g2.setStroke(new BasicStroke(2.5f));
                 g2.draw(new RoundRectangle2D.Float(1, 1, getWidth() - 2, getHeight() - 2, 28, 28));
@@ -140,7 +142,6 @@ public class MIUBANK extends JFrame {
         panelLogin.setLayout(new BoxLayout(panelLogin, BoxLayout.Y_AXIS));
         panelLogin.setBorder(new EmptyBorder(45, 40, 20, 40));
 
-        // Header
         JPanel header = new JPanel();
         header.setOpaque(false);
         header.setLayout(new BoxLayout(header, BoxLayout.Y_AXIS));
@@ -149,7 +150,6 @@ public class MIUBANK extends JFrame {
         JPanel titleRow = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 0));
         titleRow.setOpaque(false);
 
-        // Gato con portafolio grande al lado del título
         GatoPortafolioPanel gatoEjecutivo = new GatoPortafolioPanel();
         gatoEjecutivo.setPreferredSize(new Dimension(100, 75));
         titleRow.add(gatoEjecutivo);
@@ -171,7 +171,6 @@ public class MIUBANK extends JFrame {
         panelLogin.add(header);
         panelLogin.add(Box.createVerticalStrut(25));
 
-        // Formulario
         JPanel form = new JPanel(new GridBagLayout());
         form.setOpaque(false);
         GridBagConstraints g = new GridBagConstraints();
@@ -211,7 +210,6 @@ public class MIUBANK extends JFrame {
         panelLogin.add(form);
         panelLogin.add(Box.createVerticalStrut(25));
 
-        // Botones
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 25, 0));
         panelBotones.setOpaque(false);
 
@@ -233,7 +231,6 @@ public class MIUBANK extends JFrame {
         panelLogin.add(mensajeLabel);
         panelLogin.add(Box.createVerticalStrut(10));
 
-        // Gato inferior ejecutivo grande con anteojos y corbata
         GatoInferiorEmpresarial caritaInferior = new GatoInferiorEmpresarial();
         caritaInferior.setPreferredSize(new Dimension(120, 70));
         caritaInferior.setMaximumSize(new Dimension(120, 70));
@@ -241,7 +238,6 @@ public class MIUBANK extends JFrame {
         panelLogin.add(caritaInferior);
         panelLogin.add(Box.createVerticalStrut(10));
 
-        // Tarjeta de información
         JPanel panelInfo = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -258,14 +254,13 @@ public class MIUBANK extends JFrame {
         panelInfo.setBorder(new EmptyBorder(8, 18, 8, 18));
         panelInfo.setMaximumSize(new Dimension(420, 75));
         panelInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
+
         JLabel infoLabel = new JLabel("<html><div style='text-align:center;'><b>Credenciales de Prueba Corporativas:</b><br/><font color='#0F50A0'>Admin:</font> admin / admin123 &nbsp;|&nbsp; <font color='#0F50A0'>Empleado:</font> empleado / emp123</div></html>");
         infoLabel.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         infoLabel.setForeground(new Color(60, 70, 90));
         panelInfo.add(infoLabel);
         panelLogin.add(panelInfo);
 
-        // Listeners
         botonIngresar.addActionListener(e -> validarLogin());
         botonLimpiar.addActionListener(e -> {
             usuarioField.setText("");
@@ -373,205 +368,283 @@ public class MIUBANK extends JFrame {
     }
 
     private void abrirVentanaEmpleado() {
-    JFrame ventanaEmpleado = new JFrame("Panel Ejecutivo Banquero - MIUBANK");
-    ventanaEmpleado.setExtendedState(JFrame.MAXIMIZED_BOTH);
-    ventanaEmpleado.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        JFrame ventanaEmpleado = new JFrame("Panel Ejecutivo Banquero - MIUBANK");
+        ventanaEmpleado.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        ventanaEmpleado.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-    JPanel panelFondo = new JPanel(new BorderLayout());
-    panelFondo.setBackground(new Color(128, 128, 128));
+        JPanel panelFondo = new JPanel(new BorderLayout());
+        panelFondo.setBackground(new Color(128, 128, 128));
 
-    // Panel Superior con Título
-    JPanel panelSuperior = new JPanel();
-    panelSuperior.setBackground(new Color(15, 50, 100));
-    panelSuperior.setBorder(BorderFactory.createEmptyBorder(18, 25, 18, 25));
-    JLabel titulo = new JLabel("Panel de Ejecutivo de Cuentas Banqueras 👔🐾");
-    titulo.setFont(new Font("Segoe UI", Font.BOLD, 28));
-    titulo.setForeground(Color.WHITE);
-    panelSuperior.add(titulo);
+        JPanel panelSuperior = new JPanel();
+        panelSuperior.setBackground(new Color(15, 50, 100));
+        panelSuperior.setBorder(BorderFactory.createEmptyBorder(18, 25, 18, 25));
+        JLabel titulo = new JLabel("Panel de Ejecutivo de Cuentas Banqueras 👔🐾");
+        titulo.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        titulo.setForeground(Color.WHITE);
+        panelSuperior.add(titulo);
 
-    // Panel Central con Tabs
-    JTabbedPane panelTabs = new JTabbedPane();
-    panelTabs.setBackground(new Color(235, 240, 248));
-    panelTabs.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        JTabbedPane panelTabs = new JTabbedPane();
+        panelTabs.setBackground(new Color(235, 240, 248));
+        panelTabs.setFont(new Font("Segoe UI", Font.BOLD, 14));
 
-    // TAB 1: Información General
-    panelTabs.addTab("📋 Información General", crearPanelInformacion());
+        panelTabs.addTab("📋 Información General", crearPanelInformacion());
+        panelTabs.addTab("💰 Registrar Préstamo", crearPanelRegistroPrestamo());
+        panelTabs.addTab("📊 Consultar Préstamos", crearPanelConsultarPrestamos());
 
-    // TAB 2: Registro de Préstamo
-    panelTabs.addTab("💰 Registrar Préstamo", crearPanelRegistroPrestamo());
+        panelFondo.add(panelSuperior, BorderLayout.NORTH);
+        panelFondo.add(panelTabs, BorderLayout.CENTER);
 
-    // TAB 3: Consultar Préstamos
-    panelTabs.addTab("📊 Consultar Préstamos", crearPanelConsultarPrestamos());
+        ventanaEmpleado.add(panelFondo);
+        ventanaEmpleado.setVisible(true);
+    }
 
-    panelFondo.add(panelSuperior, BorderLayout.NORTH);
-    panelFondo.add(panelTabs, BorderLayout.CENTER);
+    private JPanel crearPanelInformacion() {
+        JPanel panel = new JPanel();
+        panel.setBackground(new Color(235, 240, 248));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBorder(BorderFactory.createEmptyBorder(40, 50, 40, 50));
 
-    ventanaEmpleado.add(panelFondo);
-    ventanaEmpleado.setVisible(true);
-}
+        JLabel opciones = new JLabel("<html><font size='5' color='#0F50A0'><b>Operaciones Ejecutivas:</b></font><br/><br/>"
+                + "✓ Gestión de expedientes de clientes<br/><br/>"
+                + "✓ Apertura de cuentas de inversión<br/><br/>"
+                + "✓ Evaluación de solicitudes de crédito<br/><br/>"
+                + "✓ Consulta de movimientos bancarios<br/><br/>"
+                + "✓ Emisión de tarjetas y cheques</html>");
+        opciones.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+        panel.add(opciones);
+        panel.add(Box.createVerticalGlue());
 
-private JPanel crearPanelInformacion() {
-    JPanel panel = new JPanel();
-    panel.setBackground(new Color(235, 240, 248));
-    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-    panel.setBorder(BorderFactory.createEmptyBorder(40, 50, 40, 50));
+        return panel;
+    }
 
-    JLabel opciones = new JLabel("<html><font size='5' color='#0F50A0'><b>Operaciones Ejecutivas:</b></font><br/><br/>"
-            + "✓ Gestión de expedientes de clientes<br/><br/>"
-            + "✓ Apertura de cuentas de inversión<br/><br/>"
-            + "✓ Evaluación de solicitudes de crédito<br/><br/>"
-            + "✓ Consulta de movimientos bancarios<br/><br/>"
-            + "✓ Emisión de tarjetas y cheques</html>");
-    opciones.setFont(new Font("Segoe UI", Font.PLAIN, 17));
-    panel.add(opciones);
-    panel.add(Box.createVerticalGlue());
+    private JPanel crearPanelRegistroPrestamo() {
+        JPanel panel = new JPanel();
+        panel.setBackground(new Color(235, 240, 248));
+        panel.setLayout(new BorderLayout());
+        panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
-    return panel;
-}
+        JPanel panelFormulario = new JPanel();
+        panelFormulario.setBackground(Color.WHITE);
+        panelFormulario.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(new Color(15, 80, 160), 2),
+                "Datos del Préstamo Bancario",
+                javax.swing.border.TitledBorder.LEFT,
+                javax.swing.border.TitledBorder.TOP,
+                new Font("Segoe UI", Font.BOLD, 16),
+                new Color(15, 80, 160)
+        ));
+        panelFormulario.setLayout(new GridBagLayout());
 
-private JPanel crearPanelRegistroPrestamo() {
-    JPanel panel = new JPanel();
-    panel.setBackground(new Color(235, 240, 248));
-    panel.setLayout(new BorderLayout());
-    panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(12, 20, 12, 20);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-    // Panel de Formulario
-    JPanel panelFormulario = new JPanel();
-    panelFormulario.setBackground(Color.WHITE);
-    panelFormulario.setBorder(BorderFactory.createTitledBorder(
-            BorderFactory.createLineBorder(new Color(15, 80, 160), 2),
-            "Datos del Préstamo Bancario",
-            javax.swing.border.TitledBorder.LEFT,
-            javax.swing.border.TitledBorder.TOP,
-            new Font("Segoe UI", Font.BOLD, 16),
-            new Color(15, 80, 160)
-    ));
-    panelFormulario.setLayout(new GridBagLayout());
+        JLabel lblNombreCliente = new JLabel("Nombre del Cliente:");
+        lblNombreCliente.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblNombreCliente.setForeground(new Color(40, 50, 70));
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.2;
+        panelFormulario.add(lblNombreCliente, gbc);
 
-    GridBagConstraints gbc = new GridBagConstraints();
-    gbc.insets = new Insets(12, 20, 12, 20);
-    gbc.fill = GridBagConstraints.HORIZONTAL;
+        JTextField txtNombreCliente = new JTextField(25);
+        estilarCampoTexto(txtNombreCliente);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.weightx = 0.8;
+        panelFormulario.add(txtNombreCliente, gbc);
 
-    // 1. Nombre del Cliente
-    JLabel lblNombreCliente = new JLabel("Nombre del Cliente:");
-    lblNombreCliente.setFont(new Font("Segoe UI", Font.BOLD, 14));
-    lblNombreCliente.setForeground(new Color(40, 50, 70));
-    gbc.gridx = 0;
-    gbc.gridy = 0;
-    gbc.weightx = 0.2;
-    panelFormulario.add(lblNombreCliente, gbc);
+        JLabel lblCedula = new JLabel("Cédula de Identidad:");
+        lblCedula.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblCedula.setForeground(new Color(40, 50, 70));
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        panelFormulario.add(lblCedula, gbc);
 
-    JTextField txtNombreCliente = new JTextField(25);
-    estilarCampoTexto(txtNombreCliente);
-    gbc.gridx = 1;
-    gbc.gridy = 0;
-    gbc.weightx = 0.8;
-    panelFormulario.add(txtNombreCliente, gbc);
+        JTextField txtCedula = new JTextField(25);
+        estilarCampoTexto(txtCedula);
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        panelFormulario.add(txtCedula, gbc);
 
-    // 2. Cédula de Identidad
-    JLabel lblCedula = new JLabel("Cédula de Identidad:");
-    lblCedula.setFont(new Font("Segoe UI", Font.BOLD, 14));
-    lblCedula.setForeground(new Color(40, 50, 70));
-    gbc.gridx = 0;
-    gbc.gridy = 1;
-    panelFormulario.add(lblCedula, gbc);
+        JLabel lblMonto = new JLabel("Monto del Préstamo ($):");
+        lblMonto.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblMonto.setForeground(new Color(40, 50, 70));
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        panelFormulario.add(lblMonto, gbc);
 
-    JTextField txtCedula = new JTextField(25);
-    estilarCampoTexto(txtCedula);
-    gbc.gridx = 1;
-    gbc.gridy = 1;
-    panelFormulario.add(txtCedula, gbc);
+        JTextField txtMonto = new JTextField(25);
+        estilarCampoTexto(txtMonto);
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        panelFormulario.add(txtMonto, gbc);
 
-    // 3. Monto del Préstamo
-    JLabel lblMonto = new JLabel("Monto del Préstamo ($):");
-    lblMonto.setFont(new Font("Segoe UI", Font.BOLD, 14));
-    lblMonto.setForeground(new Color(40, 50, 70));
-    gbc.gridx = 0;
-    gbc.gridy = 2;
-    panelFormulario.add(lblMonto, gbc);
+        JLabel lblTasaInteres = new JLabel("Tasa de Interés (%):");
+        lblTasaInteres.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblTasaInteres.setForeground(new Color(40, 50, 70));
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        panelFormulario.add(lblTasaInteres, gbc);
 
-    JTextField txtMonto = new JTextField(25);
-    estilarCampoTexto(txtMonto);
-    gbc.gridx = 1;
-    gbc.gridy = 2;
-    panelFormulario.add(txtMonto, gbc);
+        JTextField txtTasaInteres = new JTextField(25);
+        estilarCampoTexto(txtTasaInteres);
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        panelFormulario.add(txtTasaInteres, gbc);
 
-    // 4. Tasa de Interés
-    JLabel lblTasaInteres = new JLabel("Tasa de Interés (%):");
-    lblTasaInteres.setFont(new Font("Segoe UI", Font.BOLD, 14));
-    lblTasaInteres.setForeground(new Color(40, 50, 70));
-    gbc.gridx = 0;
-    gbc.gridy = 3;
-    panelFormulario.add(lblTasaInteres, gbc);
+        JLabel lblPlazo = new JLabel("Plazo (meses):");
+        lblPlazo.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblPlazo.setForeground(new Color(40, 50, 70));
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        panelFormulario.add(lblPlazo, gbc);
 
-    JTextField txtTasaInteres = new JTextField(25);
-    estilarCampoTexto(txtTasaInteres);
-    gbc.gridx = 1;
-    gbc.gridy = 3;
-    panelFormulario.add(txtTasaInteres, gbc);
+        JTextField txtPlazo = new JTextField(25);
+        estilarCampoTexto(txtPlazo);
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        panelFormulario.add(txtPlazo, gbc);
 
-    // 5. Plazo (en meses)
-    JLabel lblPlazo = new JLabel("Plazo (meses):");
-    lblPlazo.setFont(new Font("Segoe UI", Font.BOLD, 14));
-    lblPlazo.setForeground(new Color(40, 50, 70));
-    gbc.gridx = 0;
-    gbc.gridy = 4;
-    panelFormulario.add(lblPlazo, gbc);
+        JLabel lblTipoPrestamo = new JLabel("Tipo de Préstamo:");
+        lblTipoPrestamo.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblTipoPrestamo.setForeground(new Color(40, 50, 70));
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        panelFormulario.add(lblTipoPrestamo, gbc);
 
-    JTextField txtPlazo = new JTextField(25);
-    estilarCampoTexto(txtPlazo);
-    gbc.gridx = 1;
-    gbc.gridy = 4;
-    panelFormulario.add(txtPlazo, gbc);
+        JComboBox<String> cmbTipoPrestamo = new JComboBox<>(
+                new String[]{"Personal", "Hipotecario", "Automotriz", "Empresarial", "Estudios"}
+        );
+        cmbTipoPrestamo.setPreferredSize(new Dimension(280, 40));
+        cmbTipoPrestamo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        cmbTipoPrestamo.setBackground(Color.WHITE);
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        panelFormulario.add(cmbTipoPrestamo, gbc);
 
-    // 6. Tipo de Préstamo
-    JLabel lblTipoPrestamo = new JLabel("Tipo de Préstamo:");
-    lblTipoPrestamo.setFont(new Font("Segoe UI", Font.BOLD, 14));
-    lblTipoPrestamo.setForeground(new Color(40, 50, 70));
-    gbc.gridx = 0;
-    gbc.gridy = 5;
-    panelFormulario.add(lblTipoPrestamo, gbc);
+        JLabel lblFechaSolicitud = new JLabel("Fecha de Solicitud:");
+        lblFechaSolicitud.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblFechaSolicitud.setForeground(new Color(40, 50, 70));
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        panelFormulario.add(lblFechaSolicitud, gbc);
 
-    JComboBox<String> cmbTipoPrestamo = new JComboBox<>(
-            new String[]{"Personal", "Hipotecario", "Automotriz", "Empresarial", "Estudios"}
-    );
-    cmbTipoPrestamo.setPreferredSize(new Dimension(280, 40));
-    cmbTipoPrestamo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-    cmbTipoPrestamo.setBackground(Color.WHITE);
-    gbc.gridx = 1;
-    gbc.gridy = 5;
-    panelFormulario.add(cmbTipoPrestamo, gbc);
+        JTextField txtFecha = new JTextField(25);
+        txtFecha.setText(new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()));
+        txtFecha.setEditable(false);
+        estilarCampoTexto(txtFecha);
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        panelFormulario.add(txtFecha, gbc);
 
-    // 7. Fecha de Solicitud
-    JLabel lblFechaSolicitud = new JLabel("Fecha de Solicitud:");
-    lblFechaSolicitud.setFont(new Font("Segoe UI", Font.BOLD, 14));
-    lblFechaSolicitud.setForeground(new Color(40, 50, 70));
-    gbc.gridx = 0;
-    gbc.gridy = 6;
-    panelFormulario.add(lblFechaSolicitud, gbc);
+        JLabel lblEstado = new JLabel("Estado:");
+        lblEstado.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblEstado.setForeground(new Color(40, 50, 70));
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        panelFormulario.add(lblEstado, gbc);
 
-    JTextField txtFecha = new JTextField(25);
-    txtFecha.setText(new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()));
-    txtFecha.setEditable(false);
-    estilarCampoTexto(txtFecha);
-    gbc.gridx = 1;
-    gbc.gridy = 6;
-    panelFormulario.add(txtFecha, gbc);
+        JComboBox<String> cmbEstado = new JComboBox<>(
+                new String[]{"Pendiente", "Aprobado", "Rechazado", "Cancelado"}
+        );
+        cmbEstado.setPreferredSize(new Dimension(280, 40));
+        cmbEstado.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        cmbEstado.setBackground(Color.WHITE);
+        gbc.gridx = 1;
+        gbc.gridy = 7;
+        panelFormulario.add(cmbEstado, gbc);
 
-    // 8. Estado del Préstamo
-    JLabel lblEstado = new JLabel("Estado:");
-    lblEstado.setFont(new Font("Segoe UI", Font.BOLD, 14));
-    lblEstado.setForeground(new Color(40, 50, 70));
-    gbc.gridx = 0;
-    gbc.gridy = 7;
-    panelFormulario.add(lblEstado, gbc);
+        JPanel panelAcciones = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        panelAcciones.setOpaque(false);
 
-    JComboBox<String> cmbEstado = new JComboBox<>(
-            new String[]{"Pendiente", "Aprobado", "Rechazado", "Cancel
-                        }
-        
+        JButton botonGuardar = crearBotonEstilizado("Guardar Prestamo", new Color(15, 80, 160), Color.WHITE);
+        JButton botonReset = crearBotonEstilizado("Limpiar", new Color(215, 222, 235), new Color(50, 60, 80));
 
-    // --- ÍCONOS VECTORIALES EMPRESARIALES ---
+        botonGuardar.addActionListener(e -> {
+            String nombre = txtNombreCliente.getText().trim();
+            String cedula = txtCedula.getText().trim();
+            String monto = txtMonto.getText().trim();
+            String tasa = txtTasaInteres.getText().trim();
+            String plazo = txtPlazo.getText().trim();
+
+            if (nombre.isEmpty() || cedula.isEmpty() || monto.isEmpty() || tasa.isEmpty() || plazo.isEmpty()) {
+                JOptionPane.showMessageDialog(panel, "Debe completar todos los campos del préstamo.", "Validación", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            try {
+                Double.parseDouble(monto);
+                Double.parseDouble(tasa);
+                Integer.parseInt(plazo);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(panel, "Monto, tasa y plazo deben ser valores numéricos válidos.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            modeloPrestamos.addRow(new Object[]{
+                    nombre,
+                    cedula,
+                    monto,
+                    tasa,
+                    plazo,
+                    cmbTipoPrestamo.getSelectedItem(),
+                    txtFecha.getText(),
+                    cmbEstado.getSelectedItem()
+            });
+
+            JOptionPane.showMessageDialog(panel, "Préstamo registrado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            txtNombreCliente.setText("");
+            txtCedula.setText("");
+            txtMonto.setText("");
+            txtTasaInteres.setText("");
+            txtPlazo.setText("");
+            cmbTipoPrestamo.setSelectedIndex(0);
+            cmbEstado.setSelectedIndex(0);
+        });
+
+        botonReset.addActionListener(e -> {
+            txtNombreCliente.setText("");
+            txtCedula.setText("");
+            txtMonto.setText("");
+            txtTasaInteres.setText("");
+            txtPlazo.setText("");
+            cmbTipoPrestamo.setSelectedIndex(0);
+            cmbEstado.setSelectedIndex(0);
+        });
+
+        panelAcciones.add(botonGuardar);
+        panelAcciones.add(botonReset);
+
+        panel.add(panelFormulario, BorderLayout.CENTER);
+        panel.add(panelAcciones, BorderLayout.SOUTH);
+        return panel;
+    }
+
+    private JPanel crearPanelConsultarPrestamos() {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(new Color(235, 240, 248));
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        JPanel panelTitulo = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelTitulo.setOpaque(false);
+        JLabel lblTitulo = new JLabel("Préstamos registrados");
+        lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        lblTitulo.setForeground(new Color(15, 60, 120));
+        panelTitulo.add(lblTitulo);
+        panel.add(panelTitulo, BorderLayout.NORTH);
+
+        JTable tablaPrestamos = new JTable(modeloPrestamos);
+        tablaPrestamos.setRowHeight(28);
+        tablaPrestamos.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        tablaPrestamos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 13));
+        tablaPrestamos.setSelectionBackground(new Color(200, 220, 245));
+
+        JScrollPane scroll = new JScrollPane(tablaPrestamos);
+        panel.add(scroll, BorderLayout.CENTER);
+
+        return panel;
+    }
 
     private Image generarIconoPortafolio(int width, int height, Color color) {
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -579,11 +652,9 @@ private JPanel crearPanelRegistroPrestamo() {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(color);
 
-        // Portafolio
         g2.fillRoundRect(2, 6, 18, 13, 4, 4);
         g2.drawRoundRect(7, 3, 8, 4, 2, 2);
 
-        // Broche metálico
         g2.setColor(new Color(240, 200, 80));
         g2.fillRect(9, 10, 4, 3);
 
@@ -595,7 +666,7 @@ private JPanel crearPanelRegistroPrestamo() {
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = img.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        
+
         g2.setColor(color);
         g2.setStroke(new BasicStroke(2.0f));
         g2.drawOval(3, 3, 16, 16);
@@ -611,34 +682,31 @@ private JPanel crearPanelRegistroPrestamo() {
         Graphics2D g2 = img.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // Cabeza
         g2.setColor(new Color(220, 160, 100));
         g2.fillOval(3, 3, 20, 17);
 
-        // Orejas
-        int[] xL = {4, 9, 11}; int[] yL = {5, 0, 7};
+        int[] xL = {4, 9, 11};
+        int[] yL = {5, 0, 7};
         g2.fillPolygon(xL, yL, 3);
-        int[] xR = {15, 17, 22}; int[] yR = {7, 0, 5};
+        int[] xR = {15, 17, 22};
+        int[] yR = {7, 0, 5};
         g2.fillPolygon(xR, yR, 3);
 
-        // Saco / Corbata
         g2.setColor(new Color(20, 35, 60));
         g2.fillRect(6, 18, 14, 8);
         g2.setColor(new Color(210, 30, 40));
-        int[] xT = {12, 14, 13}; int[] yT = {18, 18, 24};
+        int[] xT = {12, 14, 13};
+        int[] yT = {18, 18, 24};
         g2.fillPolygon(xT, yT, 3);
 
         g2.dispose();
         return img;
     }
 
-    // --- DIBUJOS VECTORIALES DE GATOS EMPRESARIALES GRANDES ---
-
-    /**
-     * Gato Ejecutivo Asomándose Arriba (Traje, Corbata y Anteojos).
-     */
     private static class GatoEjecutivoSuperior extends JPanel {
-        public GatoEjecutivoSuperior() { setOpaque(false); }
+        public GatoEjecutivoSuperior() {
+            setOpaque(false);
+        }
 
         @Override
         protected void paintComponent(Graphics g) {
@@ -648,7 +716,6 @@ private JPanel crearPanelRegistroPrestamo() {
 
             int cx = getWidth() / 2;
 
-            // Orejas Grandes
             g2.setColor(new Color(230, 165, 100));
             Path2D.Double earL = new Path2D.Double();
             earL.moveTo(cx - 75, 60); earL.lineTo(cx - 58, 2); earL.lineTo(cx - 28, 45);
@@ -660,7 +727,6 @@ private JPanel crearPanelRegistroPrestamo() {
             earR.closePath();
             g2.fill(earR);
 
-            // Interior Orejas
             g2.setColor(new Color(245, 180, 190));
             Path2D.Double inL = new Path2D.Double();
             inL.moveTo(cx - 68, 55); inL.lineTo(cx - 57, 12); inL.lineTo(cx - 35, 45);
@@ -672,43 +738,35 @@ private JPanel crearPanelRegistroPrestamo() {
             inR.closePath();
             g2.fill(inR);
 
-            // Cabeza Grande
             g2.setColor(new Color(240, 175, 110));
             g2.fillOval(cx - 85, 25, 170, 85);
 
-            // Saco Ejecutivo Azul Marino en el borde
             g2.setColor(new Color(20, 40, 75));
             g2.fillRoundRect(cx - 75, 80, 150, 40, 20, 20);
 
-            // Camisa Blanca
             g2.setColor(Color.WHITE);
             int[] xCamisa = {cx - 30, cx + 30, cx};
             int[] yCamisa = {80, 80, 115};
             g2.fillPolygon(xCamisa, yCamisa, 3);
 
-            // Corbata Roja Ejecutiva
             g2.setColor(new Color(210, 35, 45));
             int[] xCorbata = {cx - 10, cx + 10, cx + 14, cx, cx - 14};
             int[] yCorbata = {82, 82, 92, 120, 92};
             g2.fillPolygon(xCorbata, yCorbata, 5);
 
-            // Ojos con lentes de sol / ejecutivos
             g2.setColor(new Color(30, 30, 35));
             g2.fillRoundRect(cx - 52, 45, 42, 28, 10, 10);
             g2.fillRoundRect(cx + 10, 45, 42, 28, 10, 10);
             g2.setStroke(new BasicStroke(4.0f));
-            g2.drawLine(cx - 10, 55, cx + 10, 55); // Puente de lentes
+            g2.drawLine(cx - 10, 55, cx + 10, 55);
 
-            // Destello en los lentes
             g2.setColor(new Color(255, 255, 255, 160));
             g2.drawLine(cx - 46, 50, cx - 25, 66);
             g2.drawLine(cx + 16, 50, cx + 37, 66);
 
-            // Nariz
             g2.setColor(new Color(230, 120, 130));
             g2.fillOval(cx - 5, 68, 10, 7);
 
-            // Bigotes Elegantes
             g2.setColor(new Color(80, 70, 70));
             g2.setStroke(new BasicStroke(2.0f));
             g2.drawLine(cx - 58, 68, cx - 88, 65);
@@ -716,7 +774,6 @@ private JPanel crearPanelRegistroPrestamo() {
             g2.drawLine(cx + 58, 68, cx + 88, 65);
             g2.drawLine(cx + 57, 74, cx + 85, 78);
 
-            // Patitas Ejecutivas en el borde
             g2.setColor(Color.WHITE);
             g2.fillOval(cx - 65, 82, 35, 25);
             g2.fillOval(cx + 30, 82, 35, 25);
@@ -730,11 +787,10 @@ private JPanel crearPanelRegistroPrestamo() {
         }
     }
 
-    /**
-     * Gato con Portafolio Grande al lado del título.
-     */
     private static class GatoPortafolioPanel extends JPanel {
-        public GatoPortafolioPanel() { setOpaque(false); }
+        public GatoPortafolioPanel() {
+            setOpaque(false);
+        }
 
         @Override
         protected void paintComponent(Graphics g) {
@@ -742,48 +798,45 @@ private JPanel crearPanelRegistroPrestamo() {
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-            // Cabeza Grande
             g2.setColor(new Color(235, 170, 105));
             g2.fillOval(10, 10, 48, 42);
 
-            // Orejas
-            int[] xL = {12, 20, 28}; int[] yL = {14, 2, 16};
+            int[] xL = {12, 20, 28};
+            int[] yL = {14, 2, 16};
             g2.fillPolygon(xL, yL, 3);
-            int[] xR = {40, 48, 56}; int[] yR = {16, 2, 14};
+            int[] xR = {40, 48, 56};
+            int[] yR = {16, 2, 14};
             g2.fillPolygon(xR, yR, 3);
 
-            // Lentes Inteligentes
             g2.setColor(new Color(25, 30, 45));
             g2.drawRoundRect(18, 22, 14, 12, 4, 4);
             g2.drawRoundRect(36, 22, 14, 12, 4, 4);
             g2.drawLine(32, 26, 36, 26);
 
-            // Saco y Corbata
             g2.setColor(new Color(20, 45, 85));
             g2.fillRoundRect(16, 46, 36, 26, 10, 10);
             g2.setColor(Color.WHITE);
-            int[] xCam = {28, 40, 34}; int[] yCam = {46, 46, 62};
+            int[] xCam = {28, 40, 34};
+            int[] yCam = {46, 46, 62};
             g2.fillPolygon(xCam, yCam, 3);
             g2.setColor(new Color(210, 35, 45));
             g2.fillRect(32, 46, 4, 18);
 
-            // Portafolio de Cuero
             g2.setColor(new Color(110, 60, 25));
             g2.fillRoundRect(55, 38, 32, 28, 6, 6);
             g2.setColor(new Color(240, 190, 70));
-            g2.fillRect(68, 48, 6, 5); // Broche
+            g2.fillRect(68, 48, 6, 5);
             g2.setColor(new Color(80, 40, 15));
-            g2.drawRoundRect(63, 33, 16, 8, 3, 3); // Asa
+            g2.drawRoundRect(63, 33, 16, 8, 3, 3);
 
             g2.dispose();
         }
     }
 
-    /**
-     * Gato Inferior Ejecutivo Grande (con Lentes y Corbata).
-     */
     private static class GatoInferiorEmpresarial extends JPanel {
-        public GatoInferiorEmpresarial() { setOpaque(false); }
+        public GatoInferiorEmpresarial() {
+            setOpaque(false);
+        }
 
         @Override
         protected void paintComponent(Graphics g) {
@@ -793,25 +846,23 @@ private JPanel crearPanelRegistroPrestamo() {
 
             int cx = getWidth() / 2;
 
-            // Orejitas
             g2.setColor(new Color(100, 105, 120));
-            int[] xL = {cx - 32, cx - 20, cx - 8}; int[] yL = {28, 10, 24};
+            int[] xL = {cx - 32, cx - 20, cx - 8};
+            int[] yL = {28, 10, 24};
             g2.fillPolygon(xL, yL, 3);
-            int[] xR = {cx + 8, cx + 20, cx + 32}; int[] yR = {24, 10, 28};
+            int[] xR = {cx + 8, cx + 20, cx + 32};
+            int[] yR = {24, 10, 28};
             g2.fillPolygon(xR, yR, 3);
 
-            // Cabeza Elegante Gris Executive
             g2.setColor(new Color(120, 125, 140));
             g2.fillOval(cx - 38, 20, 76, 48);
 
-            // Ojos con Anteojos Redondos
             g2.setColor(new Color(20, 25, 35));
             g2.setStroke(new BasicStroke(2.2f));
             g2.drawOval(cx - 28, 32, 18, 18);
             g2.drawOval(cx + 10, 32, 18, 18);
             g2.drawLine(cx - 10, 40, cx + 10, 40);
 
-            // Ojos
             g2.setColor(new Color(255, 210, 80));
             g2.fillOval(cx - 24, 36, 10, 10);
             g2.fillOval(cx + 14, 36, 10, 10);
@@ -819,11 +870,9 @@ private JPanel crearPanelRegistroPrestamo() {
             g2.fillOval(cx - 20, 38, 4, 6);
             g2.fillOval(cx + 18, 38, 4, 6);
 
-            // Nariz
             g2.setColor(new Color(240, 150, 165));
             g2.fillOval(cx - 3, 48, 6, 4);
 
-            // Saco y Corbata Pequeña Inferior
             g2.setColor(new Color(15, 35, 65));
             g2.fillRoundRect(cx - 25, 58, 50, 20, 8, 8);
             g2.setColor(new Color(220, 40, 50));
@@ -833,9 +882,6 @@ private JPanel crearPanelRegistroPrestamo() {
         }
     }
 
-    /**
-     * Fondo Ejecutivo con Siluetas de Gatos Empresariales en Gran Tamaño.
-     */
     private static class FondoPatron extends JPanel {
         @Override
         protected void paintComponent(Graphics g) {
@@ -843,7 +889,6 @@ private JPanel crearPanelRegistroPrestamo() {
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-            // Fondo gris corporativo
             g2.setColor(new Color(120, 125, 135));
             g2.fillRect(0, 0, getWidth(), getHeight());
 
@@ -862,13 +907,9 @@ private JPanel crearPanelRegistroPrestamo() {
 
         private void dibujarGatoEmpresarialGrande(Graphics2D g2, int x, int y) {
             g2.setColor(new Color(65, 70, 80, 160));
-
-            // Cuerpo
             g2.fillOval(x + 15, y + 35, 65, 75);
-            // Cabeza
             g2.fillOval(x + 22, y + 10, 50, 42);
 
-            // Orejas
             Path2D.Double ear1 = new Path2D.Double();
             ear1.moveTo(x + 25, 20); ear1.lineTo(x + 32, 0); ear1.lineTo(x + 42, 16); ear1.closePath();
             g2.fill(ear1);
@@ -877,11 +918,9 @@ private JPanel crearPanelRegistroPrestamo() {
             ear2.moveTo(x + 52, 16); ear2.lineTo(x + 62, 0); ear2.lineTo(x + 68, 20); ear2.closePath();
             g2.fill(ear2);
 
-            // Saco
             g2.setColor(new Color(45, 50, 60, 180));
             g2.fillRoundRect(x + 20, y + 55, 55, 50, 12, 12);
 
-            // Cola
             Path2D.Double cola = new Path2D.Double();
             cola.moveTo(x + 75, y + 95);
             cola.quadTo(x + 110, y + 70, x + 98, y + 35);
@@ -891,7 +930,7 @@ private JPanel crearPanelRegistroPrestamo() {
 
         private void dibujarPortafolioGrande(Graphics2D g2, int x, int y, int size) {
             g2.setColor(new Color(60, 65, 75, 140));
-            g2.fillRoundRect(x, y, size, (int)(size * 0.75), 6, 6);
+            g2.fillRoundRect(x, y, size, (int) (size * 0.75), 6, 6);
             g2.drawRoundRect(x + size / 3, y - size / 4, size / 3, size / 4, 3, 3);
         }
     }
