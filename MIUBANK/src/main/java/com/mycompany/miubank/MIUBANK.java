@@ -209,3 +209,11 @@ public class MIUBANK extends JFrame {
         JTextField campo = new JTextField();
         campo.setMaximumSize(new Dimension(300, 30));
         panel.add(campo);
+        panel.add(Box.createVerticalStrut(10));
+        return campo;
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(MIUBANK::new);
+    }
+}
