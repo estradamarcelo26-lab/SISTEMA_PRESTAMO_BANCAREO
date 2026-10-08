@@ -216,19 +216,19 @@ public class MIUBANK extends JFrame {
             String pass = new String(nuevaPass.getPassword()).trim();
 
             if (user.isEmpty() || pass.isEmpty()) {
-                JOptionPane.showMessageDialog(registro, "Debe completar todos los campos", 
+                JOptionPane.showMessageDialog(registro, "Debe completar todos los campos",
                         "Validación", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
             if (usuarios.containsKey(user)) {
-                JOptionPane.showMessageDialog(registro, "Ese usuario ya existe", 
+                JOptionPane.showMessageDialog(registro, "Ese usuario ya existe",
                         "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             usuarios.put(user, pass);
-            JOptionPane.showMessageDialog(registro, "¡Usuario registrado correctamente!\nAhora puedes iniciar sesión", 
+            JOptionPane.showMessageDialog(registro, "¡Usuario registrado correctamente!\nAhora puedes iniciar sesión",
                     "Éxito", JOptionPane.INFORMATION_MESSAGE);
             registro.dispose();
         });
@@ -302,7 +302,7 @@ public class MIUBANK extends JFrame {
             if (cliente.getText().isEmpty() || cedula.getText().isEmpty()
                     || monto.getText().isEmpty() || tasa.getText().isEmpty()
                     || plazo.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(ventana, "Completa todos los campos", 
+                JOptionPane.showMessageDialog(ventana, "Completa todos los campos",
                         "Validación", JOptionPane.WARNING_MESSAGE);
                 return;
             }
@@ -311,17 +311,17 @@ public class MIUBANK extends JFrame {
                 Double.parseDouble(monto.getText());
                 Double.parseDouble(tasa.getText());
                 Integer.parseInt(plazo.getText());
-                JOptionPane.showMessageDialog(ventana, 
-                        "✓ Préstamo registrado correctamente\n\nDatos:\nCliente: " + cliente.getText() + 
-                        "\nCédula: " + cedula.getText() + 
-                        "\nMonto: $" + monto.getText() + 
-                        "\nTasa: " + tasa.getText() + "%" +
-                        "\nPlazo: " + plazo.getText() + " meses", 
+                JOptionPane.showMessageDialog(ventana,
+                        "✓ Préstamo registrado correctamente\n\nDatos:\nCliente: " + cliente.getText() +
+                                "\nCédula: " + cedula.getText() +
+                                "\nMonto: $" + monto.getText() +
+                                "\nTasa: " + tasa.getText() + "%" +
+                                "\nPlazo: " + plazo.getText() + " meses",
                         "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 limpiarCampos(cliente, cedula, monto, tasa, plazo);
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(ventana, 
-                        "Monto, tasa y plazo deben ser valores numéricos", 
+                JOptionPane.showMessageDialog(ventana,
+                        "Monto, tasa y plazo deben ser valores numéricos",
                         "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
